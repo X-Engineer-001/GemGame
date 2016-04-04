@@ -8,6 +8,23 @@ var cursor={
   x:0,
   y:0
 };
+function AngleToCoordinate(angle,radius){
+  if(angle<0.5*Math.PI){
+    return {x:cos(angle)*radius,y:-1*sin(angle)*radius};
+  }else if(angle==0.5*Math.PI){
+    return {x:0,y:-1*radius};
+  }else if(angle>0.5*Math.PI&&angle<1*Math.PI){
+    return {x:-1*cos((1*Math.PI)-angle)*radius,y:-1*sin((1*Math.PI)-angle)*radius};
+  }else if(angle==1*Math.PI){
+    return {x:-1*radius,y:0};
+  }else if(angle>1*Math.PI&&angle<1.5*Math.PI){
+    return {x:-1*cos(angle-(1*Math.PI))*radius,y:sin(angle-(1*Math.PI))*radius};
+  }else if(angle==1.5*Math.PI){
+    return {x:0,y:radius};
+  }else{
+    return {x:cos((2*Math.PI)-angle)*radius,y:sin((2*Math.PI)-angle)*radius};
+  }
+}
 function IsCollidedMovingPointToPointOrPointToSurface(x,y,targetx,targety,targetwidth,targetheight){
   if(x>=targetx&&
     x<=targetx+targetwidth&&
