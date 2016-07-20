@@ -212,7 +212,7 @@ function DrawBlade(){//blade:[2,[-50,-50,0,-300,50,-50]]
   }//
 }
 function draw(){
-  ctx.drawImage(bg,0,0,700,750);
+  ctx.drawImage(bg,0,0,750,700);
   if(flag==0){
     ctx.fillStyle="rgb(255,0,0)";
     ctx.fillRect(25,250,200,200);
@@ -225,9 +225,10 @@ function draw(){
     DrawBlade();
     ctx.strokeStyle="rgb(0,0,0)";
     ctx.lineWidth=2;
-    ctx.arc(350,350,50,0,Math.PI*2,false);
+    ctx.arc(350,350,50,0,Math.PI*2,true);
     ctx.strokeStyle="rgb(200,200,200)";
-    ctx.arc(350,350,350,0,Math.PI*2,false);
+    ctx.arc(350,350,350,0,Math.PI*2,true);
+    ctx.stroke();
     var height0=equipedgems[0]*60/gemequiplimit;
     var height1=equipedgems[1]*60/gemequiplimit;
     var height2=equipedgems[2]*60/gemequiplimit;
