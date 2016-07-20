@@ -208,7 +208,9 @@ function DrawBlade(){//blade:[2,[-50,-50,0,-300,50,-50]]
         }
         ctx.fill();
       }
+      console.log("x"+j);
     }
+    console.log(i);
   }//
 }
 function draw(){
