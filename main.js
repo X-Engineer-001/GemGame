@@ -223,11 +223,11 @@ function draw(){
   }
   if(flag==1){
     DrawBlade();
-    ctx.strokeStyle="rgb(0,0,0)"
-    ctx.lineWidth=10;
-    ctx.arc(350,350,50,0,0,false);
-    ctx.strokeStyle="rgb(200,200,200)"
-    ctx.arc(350,350,350,0,0,false);
+    ctx.strokeStyle="rgb(0,0,0)";
+    ctx.lineWidth=2;
+    ctx.arc(350,350,50,0,Math.PI*2,false);
+    ctx.strokeStyle="rgb(200,200,200)";
+    ctx.arc(350,350,350,0,Math.PI*2,false);
     var height0=equipedgems[0]*60/gemequiplimit;
     var height1=equipedgems[1]*60/gemequiplimit;
     var height2=equipedgems[2]*60/gemequiplimit;
