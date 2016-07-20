@@ -225,8 +225,11 @@ function draw(){
     DrawBlade();
     ctx.strokeStyle="rgb(0,0,0)";
     ctx.lineWidth=2;
+    ctx.beginPath();
     ctx.arc(350,350,50,0,Math.PI*2,true);
+    ctx.stroke();
     ctx.strokeStyle="rgb(200,200,200)";
+    ctx.beginPath();
     ctx.arc(350,350,350,0,Math.PI*2,true);
     ctx.stroke();
     var height0=equipedgems[0]*60/gemequiplimit;
