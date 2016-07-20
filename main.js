@@ -202,15 +202,15 @@ function DrawBlade(){//blade:[2,[-50,-50,0,-300,50,-50]]
         for(var k=0;k<blade[i+1].length/2;k++){
           if(k==0){
             ctx.moveTo(350+AngleToCoordinateTopClockwise((CoordinateToAngleTopClockwise(thisblade[0],thisblade[1])+Math.PI*2*j/blade[0])%Math.PI*2,GetDistance(0,0,thisblade[0],thisblade[1])).x,350+AngleToCoordinateTopClockwise((CoordinateToAngleTopClockwise(thisblade[0],thisblade[1])+Math.PI*2*j/blade[0])%Math.PI*2,GetDistance(0,0,thisblade[0],thisblade[1])).y);
+            console.log('x:'+350+AngleToCoordinateTopClockwise((CoordinateToAngleTopClockwise(thisblade[0],thisblade[1])+Math.PI*2*j/blade[0])%Math.PI*2,GetDistance(0,0,thisblade[0],thisblade[1])).x+'y:'+350+AngleToCoordinateTopClockwise((CoordinateToAngleTopClockwise(thisblade[0],thisblade[1])+Math.PI*2*j/blade[0])%Math.PI*2,GetDistance(0,0,thisblade[0],thisblade[1])).y);
           }else{
             ctx.lineTo(350+AngleToCoordinateTopClockwise((CoordinateToAngleTopClockwise(thisblade[k*2],thisblade[k*2+1])+Math.PI*2*j/blade[0])%Math.PI*2,GetDistance(0,0,thisblade[k*2],thisblade[k*2+1])).x,350+AngleToCoordinateTopClockwise((CoordinateToAngleTopClockwise(thisblade[k*2],thisblade[k*2+1])+Math.PI*2*j/blade[0])%Math.PI*2,GetDistance(0,0,thisblade[k*2],thisblade[k*2+1])).y);
+            console.log('x:'+350+AngleToCoordinateTopClockwise((CoordinateToAngleTopClockwise(thisblade[0],thisblade[1])+Math.PI*2*j/blade[0])%Math.PI*2,GetDistance(0,0,thisblade[0],thisblade[1])).x+'y:'+350+AngleToCoordinateTopClockwise((CoordinateToAngleTopClockwise(thisblade[0],thisblade[1])+Math.PI*2*j/blade[0])%Math.PI*2,GetDistance(0,0,thisblade[0],thisblade[1])).y);
           }
         }
         ctx.fill();
       }
-      console.log("x"+j);
     }
-    console.log(i);
   }//
 }
 function draw(){
