@@ -224,19 +224,19 @@ function draw(){
   if(flag==1){
     DrawBlade();
     ctx.strokeStyle="rgb(0,0,0)"
-    ctx.lineWidth=2;
+    ctx.lineWidth=10;
     ctx.arc(350,350,50,0,0,false);
     ctx.strokeStyle="rgb(200,200,200)"
     ctx.arc(350,350,350,0,0,false);
-    var height0=equipedgems[0]*320/gemequiplimit;
-    var height1=equipedgems[1]*320/gemequiplimit;
-    var height2=equipedgems[2]*320/gemequiplimit;
-    var height3=equipedgems[3]*320/gemequiplimit;
-    var height4=equipedgems[4]*320/gemequiplimit;
-    var height5=equipedgems[5]*320/gemequiplimit;
-    var height6=equipedgems[6]*320/gemequiplimit;
-    var height7=equipedgems[7]*320/gemequiplimit;
-    var height8=equipedgems[8]*320/gemequiplimit;
+    var height0=equipedgems[0]*60/gemequiplimit;
+    var height1=equipedgems[1]*60/gemequiplimit;
+    var height2=equipedgems[2]*60/gemequiplimit;
+    var height3=equipedgems[3]*60/gemequiplimit;
+    var height4=equipedgems[4]*60/gemequiplimit;
+    var height5=equipedgems[5]*60/gemequiplimit;
+    var height6=equipedgems[6]*60/gemequiplimit;
+    var height7=equipedgems[7]*60/gemequiplimit;
+    var height8=equipedgems[8]*60/gemequiplimit;
     DrawAttack(320,320,60,height0);
     DrawCriticalChance(320,320+height0,60,height1);
     DrawCriticalDamage(320,320+height0+height1,60,height2);
