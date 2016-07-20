@@ -121,7 +121,7 @@ function AngleToCoordinateTopClockwise(angle,radius){
   }else if(angle==Math.PI){
     return {x:0,y:radius};
   }else if(angle<1.5*Math.PI){
-    return {x:-1*Math.cos((1.5*Math.PI)-angle)*radius,y:Math.sin((1.5*Math.PI)-angle*radius};
+    return {x:-1*Math.cos((1.5*Math.PI)-angle)*radius,y:Math.sin((1.5*Math.PI)-angle)*radius};
   }else if(angle==1.5*Math.PI){
     return {x:-1*radius,y:0};
   }else{
