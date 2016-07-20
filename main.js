@@ -182,12 +182,13 @@ document.onclick=function(){
     }
   }
 };
-function DrawBlade(){
+function DrawBlade(){//blade:[2,[-50,-50,0,-300,50,-50]]
   ctx.fillStyle="rgb(150,150,150)";
   for(var i=0;i<blade.length-1;i++){//Blade
     var thisblade=blade[i+1];
     for(var j=0;j<blade[0];j++){//BladeCount
       if(j==0){//DrawBlade
+        ctx.beginPath();
         for(var k=0;k<blade[i+1].length/2;k++){
           if(k==0){
             ctx.moveTo(350+thisblade[0],350+thisblade[1]);
@@ -197,6 +198,7 @@ function DrawBlade(){
         }
         ctx.fill();
       }else{
+        ctx.beginPath();
         for(var k=0;k<blade[i+1].length/2;k++){
           if(k==0){
             ctx.moveTo(350+AngleToCoordinateTopClockwise((CoordinateToAngleTopClockwise(thisblade[0],thisblade[1])+Math.PI*2*j/blade[0])%Math.PI*2,GetDistance(0,0,thisblade[0],thisblade[1])).x,350+AngleToCoordinateTopClockwise((CoordinateToAngleTopClockwise(thisblade[0],thisblade[1])+Math.PI*2*j/blade[0])%Math.PI*2,GetDistance(0,0,thisblade[0],thisblade[1])).y);
@@ -207,7 +209,7 @@ function DrawBlade(){
         ctx.fill();
       }
     }
-  }
+  }//
 }
 function draw(){
   ctx.drawImage(bg,0,0,700,750);
@@ -226,7 +228,6 @@ function draw(){
     ctx.arc(350,350,50,0,0,false);
     ctx.strokeStyle="rgb(200,200,200)"
     ctx.arc(350,350,350,0,0,false);
-    ctx.fillStyle="rgb(255,100,100)";
     var height0=equipedgems[0]*320/gemequiplimit;
     var height1=equipedgems[1]*320/gemequiplimit;
     var height2=equipedgems[2]*320/gemequiplimit;
@@ -236,23 +237,15 @@ function draw(){
     var height6=equipedgems[6]*320/gemequiplimit;
     var height7=equipedgems[7]*320/gemequiplimit;
     var height8=equipedgems[8]*320/gemequiplimit;
-    ctx.fillRect(320,320,60,height0);
-    ctx.fillStyle="rgb(255,0,0)";
-    ctx.fillRect(320,320+height0,60,height1);
-    ctx.fillStyle="rgb(155,0,0)";
-    ctx.fillRect(320,320+height0+height1,60,height2);
-    ctx.fillStyle="rgb(100,255,100)";
-    ctx.fillRect(320,320+height0+height1+height2,60,height3);
-    ctx.fillStyle="rgb(0,255,0)";
-    ctx.fillRect(320,320+height0+height1+height2+height3,60,height4);
-    ctx.fillStyle="rgb(0,155,0)";
-    ctx.fillRect(320,320+height0+height1+height2+height3+height4,60,height5);
-    ctx.fillStyle="rgb(100,100,255)";
-    ctx.fillRect(320,320+height0+height1+height2+height3+height4+height5,60,height6);
-    ctx.fillStyle="rgb(0,0,255)";
-    ctx.fillRect(320,320+height0+height1+height2+height3+height4+height5+height6,60,height7);
-    ctx.fillStyle="rgb(0,0,155)";
-    ctx.fillRect(320,320+height0+height1+height2+height3+height4+height5+height6+height7,60,height8);
+    DrawAttack(320,320,60,height0);
+    DrawCriticalChance(320,320+height0,60,height1);
+    DrawCriticalDamage(320,320+height0+height1,60,height2);
+    DrawHealth(320,320+height0+height1+height2,60,height3);
+    DrawDefence(320,320+height0+height1+height2+height3,60,height4);
+    DrawHealthRegenerate(320,320+height0+height1+height2+height3+height4,60,height5);
+    DrawMovingDistance(320,320+height0+height1+height2+height3+height4+height5,60,height6);
+    DrawMovingCoolDown(320,320+height0+height1+height2+height3+height4+height5+height6,60,height7);
+    DrawDodge(320,320+height0+height1+height2+height3+height4+height5+height6+height7,60,height8);
   }
 }
 setInterval(draw,1000/FPS)
