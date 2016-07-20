@@ -75,19 +75,19 @@ function CoordinateToAngleTopClockwise(x,y){
   if(x==0&&y<0){
     return 0;
   }else if(x>0&&y<0){
-    return (0.5*Math.PI)-Math.acos(x/function GetDistance(0,0,x,y));
+    return (0.5*Math.PI)-Math.acos(x/GetDistance(0,0,x,y));
   }else if(x>0&&y==0){
     return (0.5*Math.PI);
   }else if(x>0&&y>0){
-    return (0.5*Math.PI)+Math.acos(x/function GetDistance(0,0,x,y));
+    return (0.5*Math.PI)+Math.acos(x/GetDistance(0,0,x,y));
   }else if(x==0&&y>0){
     return Math.PI;
   }else if(x<0&&y>0){
-    return (1.5*Math.PI)-Math.acos(-1*x/function GetDistance(0,0,x,y));
+    return (1.5*Math.PI)-Math.acos(-1*x/GetDistance(0,0,x,y));
   }else if(x<0&&y==0){
     return (1.5*Math.PI);
   }else{
-    return (1.5*Math.PI)+Math.acos(-1*x/function GetDistance(0,0,x,y));
+    return (1.5*Math.PI)+Math.acos(-1*x/GetDistance(0,0,x,y));
   }
 }
 function AngleToCoordinateRightCounterclockwise(angle,radius){
