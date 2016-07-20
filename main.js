@@ -91,7 +91,7 @@ function CoordinateToAngleTopClockwise(x,y){
   }
 }
 function AngleToCoordinateRightCounterclockwise(angle,radius){
-  if(angel==0){
+  if(angle==0){
     return {x:radius,y:0};
   }else if(angle<0.5*Math.PI){
     return {x:Math.cos(angle)*radius,y:-1*Math.sin(angle)*radius};
@@ -110,7 +110,7 @@ function AngleToCoordinateRightCounterclockwise(angle,radius){
   }
 }
 function AngleToCoordinateTopClockwise(angle,radius){
-  if(angel==0){
+  if(angle==0){
     return {x:0,y:-1*radius};
   }else if(angle<0.5*Math.PI){
     return {x:Math.cos((0.5*Math.PI)-angle)*radius,y:-1*Math.sin((0.5*Math.PI)-angle)*radius};
@@ -168,15 +168,15 @@ document.onmousemove=function(event){
 };
 document.onclick=function(){
   if(flag==0){
-    if(IsCollidedMovingPointToPointOrPointToSurface(cursor.x,cursor.y,50,250,200,200)){
+    if(IsCollidedMovingPointToPointOrPointToSurface(cursor.x,cursor.y,25,250,200,200)){
       gems=[6,2,2,2,0,0,2,0,0];
       flag=1;
     }
-    if(IsCollidedMovingPointToPointOrPointToSurface(cursor.x,cursor.y,300,250,200,200)){
+    if(IsCollidedMovingPointToPointOrPointToSurface(cursor.x,cursor.y,250,250,200,200)){
       gems=[2,0,0,6,2,2,2,0,0];
       flag=1;
     }
-    if(IsCollidedMovingPointToPointOrPointToSurface(cursor.x,cursor.y,550,250,200,200)){
+    if(IsCollidedMovingPointToPointOrPointToSurface(cursor.x,cursor.y,475,250,200,200)){
       gems=[2,0,0,2,0,0,6,2,2];
       flag=1;
     }
@@ -213,11 +213,11 @@ function draw(){
   ctx.drawImage(bg,0,0,700,750);
   if(flag==0){
     ctx.fillStyle="rgb(255,0,0)";
-    ctx.fillRect(50,250,200,200);
+    ctx.fillRect(25,250,200,200);
     ctx.fillStyle="rgb(0,255,0)";
-    ctx.fillRect(300,250,200,200);
+    ctx.fillRect(250,250,200,200);
     ctx.fillStyle="rgb(0,0,255)";
-    ctx.fillRect(550,250,200,200);
+    ctx.fillRect(475,250,200,200);
   }
   if(flag==1){
     DrawBlade();
