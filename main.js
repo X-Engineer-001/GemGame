@@ -291,7 +291,7 @@ function WriteFraction(numerator,denominator,x,y,font,color){
   ctx.font=font/String(numerator).length/2+"px Arial";
   ctx.fillText(denominator,x+font/2,y+font);
   ctx.font=font+"px Arial";
-  ctx.fillText("/",x,y+font);
+  ctx.fillText("／",x,y+font);
 }
 function draw(){
   ctx.drawImage(bg,0,0,750,700);
