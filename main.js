@@ -302,7 +302,7 @@ function draw(){
     if(editflag==4){
       var thisblade=blade[editingbladepoint.blade];
       if(GetDistance(cursor.x,cursor.y,350,350)>350){
-        var unitVector=GetUnitVector(350,350,cyrsor.x,cursor.y);
+        var unitVector=GetUnitVector(350,350,cursor.x,cursor.y);
         thisblade[editingbladepoint.x]=unitVector.x*350-350;
         thisblade[editingbladepoint.y]=unitVector.y*350-350;
       }else{
