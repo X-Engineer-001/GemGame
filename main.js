@@ -218,7 +218,7 @@ function DrawBladepPoint(){//blade:[2,[-50,-50,0,-300,50,-50]]
     ctx.beginPath();
     for(var k=0;k<blade[i+1].length/2;k++){
       ctx.fillStyle="rgb(0,0,0)";
-      ctx.fillRect(350+thisblade[k*2],350+thisblade[k*2+1],10,10);
+      ctx.fillRect(345+thisblade[k*2],345+thisblade[k*2+1],10,10);
     }
     ctx.fill();
   }
