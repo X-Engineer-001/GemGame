@@ -346,15 +346,15 @@ function draw(){
     ctx.font="50px Arial";
     ctx.fillStyle="rgb(150,150,150)";
     ctx.fillText("$"+money,0,50);
-    function WriteFraction(equipedgems[0],gems[0],700,100,"50","rgb(255,255,255)")
-    function WriteFraction(equipedgems[1],gems[1],700,150,"50","rgb(255,255,255)")
-    function WriteFraction(equipedgems[2],gems[2],700,200,"50","rgb(255,255,255)")
-    function WriteFraction(equipedgems[3],gems[3],700,250,"50","rgb(255,255,255)")
-    function WriteFraction(equipedgems[4],gems[4],700,300,"50","rgb(255,255,255)")
-    function WriteFraction(equipedgems[5],gems[5],700,350,"50","rgb(255,255,255)")
-    function WriteFraction(equipedgems[6],gems[6],700,400,"50","rgb(255,255,255)")
-    function WriteFraction(equipedgems[7],gems[7],700,450,"50","rgb(255,255,255)")
-    function WriteFraction(equipedgems[8],gems[8],700,500,"50","rgb(255,255,255)")
+    WriteFraction(equipedgems[0],gems[0],700,100,"50","rgb(255,255,255)");
+    WriteFraction(equipedgems[1],gems[1],700,150,"50","rgb(255,255,255)");
+    WriteFraction(equipedgems[2],gems[2],700,200,"50","rgb(255,255,255)");
+    WriteFraction(equipedgems[3],gems[3],700,250,"50","rgb(255,255,255)");
+    WriteFraction(equipedgems[4],gems[4],700,300,"50","rgb(255,255,255)");
+    WriteFraction(equipedgems[5],gems[5],700,350,"50","rgb(255,255,255)");
+    WriteFraction(equipedgems[6],gems[6],700,400,"50","rgb(255,255,255)");
+    WriteFraction(equipedgems[7],gems[7],700,450,"50","rgb(255,255,255)");
+    WriteFraction(equipedgems[8],gems[8],700,500,"50","rgb(255,255,255)");
     ctx.font="50px Arial";
     ctx.fillStyle="rgb(255,255,255)";
     ctx.fillText(artifact[0],700,550);
