@@ -223,7 +223,7 @@ document.onclick=function(){
         gems[(cursor.y-100-(cursor.y%50))/50]=gems[(cursor.y-100-(cursor.y%50))/50]-1;
         money=money+1;
       }
-    }else if(editflag==2&&IsCollidedMovingPointToPointOrPointToSurface(cursor.x,cursor.y,700,100,50,450)){
+    }else if(editflag==2&&IsCollidedMovingPointToPointOrPointToSurface(cursor.x,cursor.y,700,100,50,450)&&equipedgems[0]+equipedgems[1]+equipedgems[2]+equipedgems[3]+equipedgems[4]+equipedgems[5]+equipedgems[6]+equipedgems[7]+equipedgems[8]<gemequiplimit){
       if(gems[(cursor.y-100-(cursor.y%50))/50]>equipedgems[(cursor.y-100-(cursor.y%50))/50]){
         equipedgems[(cursor.y-100-(cursor.y%50))/50]=equipedgems[(cursor.y-100-(cursor.y%50))/50]+1;
       }
@@ -291,7 +291,7 @@ function WriteFraction(numerator,denominator,x,y,font,color){
   ctx.font=font/String(numerator).length/2+"px Arial";
   ctx.fillText(denominator,x+font/2,y+font);
   ctx.font=font+"px Arial";
-  ctx.fillText("／",x,y+font);
+  ctx.fillText("／",x*4/3,(y+font)*4/3);
 }
 function draw(){
   ctx.drawImage(bg,0,0,750,700);
