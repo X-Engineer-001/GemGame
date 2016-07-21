@@ -1,5 +1,6 @@
 var FPS=60;
 var flag=0;
+var editflag=0;
 var canvas=document.getElementById("gamecanvas");
 var ctx=canvas.getContext("2d");
 var bg=document.createElement("img");
@@ -14,8 +15,11 @@ var cursor={
   x:0,
   y:0
 };
-var gems=[];//Attack(2),CriticalChance(3),CriticalDamage(0.1),Health(30),Defence(3),HealthRegenerate(1),MovingDistance(50),MovingCoolDown(3),Dodge(3)
-var equipedgems=[];
+var editingbladepoint={};
+var money=0;
+var artifact=[0,0,0];//+1BladePoint,+1Blade,BoostAllGemsEffectBy10%
+var gems=[0,0,0,0,0,0,0,0,0];//Attack(2),CriticalChance(3),CriticalDamage(0.1),Health(30),Defence(3),HealthRegenerate(1),MovingDistance(50),MovingCoolDown(3),Dodge(3)
+var equipedgems=[0,0,0,0,0,0,0,0,0];
 var gemequiplimit=7
 var state=[];
 var blade=[2,[-50,-50,0,-300,50,-50]];//BladeCount,[BladeX,BladeY,BladeX,BladeY...],[BladeX,BladeY,BladeX,BladeY...]...
@@ -134,6 +138,17 @@ function AngleToCoordinateTopClockwise(angle,radius){
     return {x:-1*Math.cos(angle-(1.5*Math.PI))*radius,y:-1*Math.sin(angle-(1.5*Math.PI))*radius};
   }
 }
+function IsCollidedCursorToBladePoint(){
+  for(var i=0;i<blade.length-1;i++){//Blade
+    var thisblade=blade[i+1];
+    for(var k=0;k<blade[i+1].length/2;k++){
+      if(IsCollidedMovingPointToPointOrPointToSurface(cursor.x,cursor.y,345+thisblade[k*2],345+thisblade[k*2+1],10,10)){
+        return {blade:i+1,x:k*2,y:k*2+1};
+      }
+    }
+    return false
+  }
+}
 function IsCollidedMovingPointToPointOrPointToSurface(x,y,targetx,targety,targetwidth,targetheight){
   if(x>=targetx&&
     x<=targetx+targetwidth&&
@@ -177,14 +192,40 @@ document.onclick=function(){
     if(IsCollidedMovingPointToPointOrPointToSurface(cursor.x,cursor.y,25,250,200,200)){
       gems=[6,2,2,2,0,0,2,0,0];
       flag=1;
-    }
-    if(IsCollidedMovingPointToPointOrPointToSurface(cursor.x,cursor.y,250,250,200,200)){
+    }else if(IsCollidedMovingPointToPointOrPointToSurface(cursor.x,cursor.y,250,250,200,200)){
       gems=[2,0,0,6,2,2,2,0,0];
       flag=1;
-    }
-    if(IsCollidedMovingPointToPointOrPointToSurface(cursor.x,cursor.y,475,250,200,200)){
+    }else if(IsCollidedMovingPointToPointOrPointToSurface(cursor.x,cursor.y,475,250,200,200)){
       gems=[2,0,0,2,0,0,6,2,2];
       flag=1;
+    }
+  }else if(flag==1){
+    if(IsCollidedMovingPointToPointOrPointToSurface(cursor.x,cursor.y,700,0,50,33)){
+      editflag=1;
+    }else if(IsCollidedMovingPointToPointOrPointToSurface(cursor.x,cursor.y,700,33,50,33)){
+      editflag=2;
+    }else if(IsCollidedMovingPointToPointOrPointToSurface(cursor.x,cursor.y,700,66,50,33)){
+      editflag=3;
+    }else if(IsCollidedMovingPointToPointOrPointToSurface(cursor.x,cursor.y,700,66,50,33)){
+      editflag=3;
+    }else if(editflag==1&&IsCollidedMovingPointToPointOrPointToSurface(cursor.x,cursor.y,700,100,50,450)){
+      if(gems[(cursor.y-100-(cursor.y%50))/50]>0){
+        gems[(cursor.y-100-(cursor.y%50))/50]=gems[(cursor.y-100-(cursor.y%50))/50]-1;
+        money=money+1;
+      }
+    }else if(editflag==2&&IsCollidedMovingPointToPointOrPointToSurface(cursor.x,cursor.y,700,100,50,450)){
+      if(gems[(cursor.y-100-(cursor.y%50))/50]>equipedgems[(cursor.y-100-(cursor.y%50))/50]){
+        equipedgems[(cursor.y-100-(cursor.y%50))/50]=equipedgems[(cursor.y-100-(cursor.y%50))/50]+1;
+      }
+    }else if(editflag==3&&IsCollidedMovingPointToPointOrPointToSurface(cursor.x,cursor.y,700,100,50,450)){
+      if(equipedgems[(cursor.y-100-(cursor.y%50))/50]>0){
+        equipedgems[(cursor.y-100-(cursor.y%50))/50]=equipedgems[(cursor.y-100-(cursor.y%50))/50]-1;
+      }
+    }else if(editflag==0&&IsCollidedCursorToBladePoint()!=false){
+      editingbladepoint=IsCollidedCursorToBladePoint();
+      editflag=4;
+    }else{
+      editflag=0;
     }
   }
 };
@@ -217,7 +258,7 @@ function DrawBlade(){//blade:[2,[-50,-50,0,-300,50,-50]]
     }
   }//
 }
-function DrawBladepPoint(){//blade:[2,[-50,-50,0,-300,50,-50]]
+function DrawBladePoint(){//blade:[2,[-50,-50,0,-300,50,-50]]
   ctx.fillStyle="rgb(150,150,150)";
   for(var i=0;i<blade.length-1;i++){//Blade
     var thisblade=blade[i+1];//DrawBladePoint
@@ -229,6 +270,14 @@ function DrawBladepPoint(){//blade:[2,[-50,-50,0,-300,50,-50]]
     ctx.fill();
   }
 }//
+function WriteFraction(numerator,denominator,x,y,font,color){
+  ctx.font=font/2+"px Arial";
+  ctx.fillStyle=color;
+  ctx.fillText(numerator,x,y+font/2);
+  ctx.fillText(denominator,x+font/2,y+font);
+  ctx.font=font+"px Arial";
+  ctx.fillText("／",x,y+font);
+}
 function draw(){
   ctx.drawImage(bg,0,0,750,700);
   if(flag==0){
@@ -240,6 +289,17 @@ function draw(){
     ctx.fillRect(475,250,200,200);
   }
   if(flag==1){
+    if(editflag==4){
+      var thisblade=blade[editingbladepoint.blade];
+      if(GetDistance(cursor.x,cursor.y,350,350)>350){
+        var unitVector=GetUnitVector(350,350,cyrsor.x,cursor.y);
+        thisblade[editingbladepoint.x]=unitVector.x*350;
+        thisblade[editingbladepoint.y]=unitVector.y*350;
+      }else{
+        thisblade[editingbladepoint.x]=cursor.x;
+        thisblade[editingbladepoint.y]=cursor.y;
+      }
+    }
     DrawBlade();
     ctx.strokeStyle="rgb(0,0,0)";
     ctx.lineWidth=2;
@@ -283,7 +343,39 @@ function draw(){
     DrawArtifact1(700,550,50,50);
     DrawArtifact2(700,600,50,50);
     DrawArtifact3(700,650,50,50);
-    DrawBladepPoint();
+    ctx.font="50px Arial";
+    ctx.fillStyle="rgb(150,150,150)";
+    ctx.fillText("$"+money,0,50);
+    function WriteFraction(equipedgems[0],gems[0],700,100,"50","rgb(255,255,255)")
+    function WriteFraction(equipedgems[1],gems[1],700,150,"50","rgb(255,255,255)")
+    function WriteFraction(equipedgems[2],gems[2],700,200,"50","rgb(255,255,255)")
+    function WriteFraction(equipedgems[3],gems[3],700,250,"50","rgb(255,255,255)")
+    function WriteFraction(equipedgems[4],gems[4],700,300,"50","rgb(255,255,255)")
+    function WriteFraction(equipedgems[5],gems[5],700,350,"50","rgb(255,255,255)")
+    function WriteFraction(equipedgems[6],gems[6],700,400,"50","rgb(255,255,255)")
+    function WriteFraction(equipedgems[7],gems[7],700,450,"50","rgb(255,255,255)")
+    function WriteFraction(equipedgems[8],gems[8],700,500,"50","rgb(255,255,255)")
+    ctx.font="50px Arial";
+    ctx.fillStyle="rgb(255,255,255)";
+    ctx.fillText(artifact[0],700,550);
+    ctx.fillText(artifact[1],700,600);
+    ctx.fillText(artifact[2],700,650);
+    if(editflag==1){
+      ctx.strokeStyle="rgb(255,0,0)";
+      ctx.lineWidth=5;
+      ctx.strokeRect(705,5,40,23);
+    }
+    if(editflag==2){
+      ctx.strokeStyle="rgb(0,0,0)";
+      ctx.lineWidth=5;
+      ctx.strokeRect(705,38,40,23);
+    }
+    if(editflag==3){
+      ctx.strokeStyle="rgb(0,0,0)";
+      ctx.lineWidth=5;
+      ctx.strokeRect(705,71,40,23);
+    }
+    DrawBladePoint();
   }
 }
 setInterval(draw,1000/FPS)
