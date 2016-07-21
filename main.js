@@ -211,6 +211,18 @@ function DrawBlade(){//blade:[2,[-50,-50,0,-300,50,-50]]
     }
   }//
 }
+function DrawBladepPoint(){//blade:[2,[-50,-50,0,-300,50,-50]]
+  ctx.fillStyle="rgb(150,150,150)";
+  for(var i=0;i<blade.length-1;i++){//Blade
+    var thisblade=blade[i+1];//DrawBladePoint
+    ctx.beginPath();
+    for(var k=0;k<blade[i+1].length/2;k++){
+      ctx.fillStyle="rgb(0,0,0)";
+      ctx.fillRect(350+thisblade[k*2],350+thisblade[k*2+1],10,10);
+    }
+    ctx.fill();
+  }
+}//
 function draw(){
   ctx.drawImage(bg,0,0,750,700);
   if(flag==0){
@@ -250,6 +262,7 @@ function draw(){
     DrawMovingDistance(320,320+height0+height1+height2+height3+height4+height5,60,height6);
     DrawMovingCoolDown(320,320+height0+height1+height2+height3+height4+height5+height6,60,height7);
     DrawDodge(320,320+height0+height1+height2+height3+height4+height5+height6+height7,60,height8);
+    DrawBladepPoint();
   }
 }
 setInterval(draw,1000/FPS)
