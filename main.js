@@ -4,6 +4,12 @@ var canvas=document.getElementById("gamecanvas");
 var ctx=canvas.getContext("2d");
 var bg=document.createElement("img");
 bg.src="images/bg.png";
+var sell=document.createElement("img");
+sell.src="images/sell.png";
+var equip=document.createElement("img");
+equip.src="images/equip.png";
+var unequip=document.createElement("img");
+unequip.src="images/unequip.png";
 var cursor={
   x:0,
   y:0
@@ -262,6 +268,21 @@ function draw(){
     DrawMovingDistance(320,320+height0+height1+height2+height3+height4+height5,60,height6);
     DrawMovingCoolDown(320,320+height0+height1+height2+height3+height4+height5+height6,60,height7);
     DrawDodge(320,320+height0+height1+height2+height3+height4+height5+height6+height7,60,height8);
+    ctx.drawImage(sell,700,0,50,33);
+    ctx.drawImage(equip,700,33,50,33);
+    ctx.drawImage(unequip,700,66,50,33);
+    DrawAttack(700,100,50,50);
+    DrawCriticalChance(700,150,50,50);
+    DrawCriticalDamage(700,200,50,50);
+    DrawHealth(700,250,50,50);
+    DrawDefence(700,300,50,50);
+    DrawHealthRegenerate(700,350,50,50);
+    DrawMovingDistance(700,400,50,50);
+    DrawMovingCoolDown(700,450,50,50);
+    DrawDodge(700,500,50,50);
+    DrawArtifact1(700,550,50,50);
+    DrawArtifact2(700,600,50,50);
+    DrawArtifact3(700,650,50,50);
     DrawBladepPoint();
   }
 }
