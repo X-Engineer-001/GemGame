@@ -232,8 +232,12 @@ document.onclick=function(){
         equipedgems[(cursor.y-100-(cursor.y%50))/50]=equipedgems[(cursor.y-100-(cursor.y%50))/50]-1;
       }
     }else if(IsCollidedCursorToBladePoint()!=false){
-      editingbladepoint=IsCollidedCursorToBladePoint();
-      editflag=4;
+      if(editflag==4){
+        editflag=0;
+      }else{
+        editingbladepoint=IsCollidedCursorToBladePoint();
+        editflag=4;
+      }
     }else{
       editflag=0;
     }
