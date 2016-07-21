@@ -303,11 +303,11 @@ function draw(){
       var thisblade=blade[editingbladepoint.blade];
       if(GetDistance(cursor.x,cursor.y,350,350)>350){
         var unitVector=GetUnitVector(350,350,cyrsor.x,cursor.y);
-        thisblade[editingbladepoint.x]=350+unitVector.x*350;
-        thisblade[editingbladepoint.y]=350+unitVector.y*350;
+        thisblade[editingbladepoint.x]=unitVector.x*350-350;
+        thisblade[editingbladepoint.y]=unitVector.y*350-350;
       }else{
-        thisblade[editingbladepoint.x]=350+cursor.x;
-        thisblade[editingbladepoint.y]=350+cursor.y;
+        thisblade[editingbladepoint.x]=cursor.x-350;
+        thisblade[editingbladepoint.y]=cursor.y-350;
       }
     }
     DrawBlade();
