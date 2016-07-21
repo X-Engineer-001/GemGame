@@ -201,13 +201,23 @@ document.onclick=function(){
     }
   }else if(flag==1){
     if(IsCollidedMovingPointToPointOrPointToSurface(cursor.x,cursor.y,700,0,50,33)){
-      editflag=1;
+      if(editflag==1){
+        editflag=0;
+      }else{
+        editflag=1;
+      }
     }else if(IsCollidedMovingPointToPointOrPointToSurface(cursor.x,cursor.y,700,33,50,33)){
-      editflag=2;
+      if(editflag==2){
+        editflag=0;
+      }else{
+        editflag=2;
+      }
     }else if(IsCollidedMovingPointToPointOrPointToSurface(cursor.x,cursor.y,700,66,50,33)){
-      editflag=3;
-    }else if(IsCollidedMovingPointToPointOrPointToSurface(cursor.x,cursor.y,700,66,50,33)){
-      editflag=3;
+      if(editflag==3){
+        editflag=0;
+      }else{
+        editflag=3;
+      }
     }else if(editflag==1&&IsCollidedMovingPointToPointOrPointToSurface(cursor.x,cursor.y,700,100,50,450)){
       if(gems[(cursor.y-100-(cursor.y%50))/50]>0){
         gems[(cursor.y-100-(cursor.y%50))/50]=gems[(cursor.y-100-(cursor.y%50))/50]-1;
@@ -221,7 +231,7 @@ document.onclick=function(){
       if(equipedgems[(cursor.y-100-(cursor.y%50))/50]>0){
         equipedgems[(cursor.y-100-(cursor.y%50))/50]=equipedgems[(cursor.y-100-(cursor.y%50))/50]-1;
       }
-    }else if(editflag==0&&IsCollidedCursorToBladePoint()!=false){
+    }else if(IsCollidedCursorToBladePoint()!=false){
       editingbladepoint=IsCollidedCursorToBladePoint();
       editflag=4;
     }else{
@@ -293,11 +303,11 @@ function draw(){
       var thisblade=blade[editingbladepoint.blade];
       if(GetDistance(cursor.x,cursor.y,350,350)>350){
         var unitVector=GetUnitVector(350,350,cyrsor.x,cursor.y);
-        thisblade[editingbladepoint.x]=unitVector.x*350;
-        thisblade[editingbladepoint.y]=unitVector.y*350;
+        thisblade[editingbladepoint.x]=350+unitVector.x*350;
+        thisblade[editingbladepoint.y]=350+unitVector.y*350;
       }else{
-        thisblade[editingbladepoint.x]=cursor.x;
-        thisblade[editingbladepoint.y]=cursor.y;
+        thisblade[editingbladepoint.x]=350+cursor.x;
+        thisblade[editingbladepoint.y]=350+cursor.y;
       }
     }
     DrawBlade();
@@ -355,11 +365,11 @@ function draw(){
     WriteFraction(equipedgems[6],gems[6],700,400,"50","rgb(255,255,255)");
     WriteFraction(equipedgems[7],gems[7],700,450,"50","rgb(255,255,255)");
     WriteFraction(equipedgems[8],gems[8],700,500,"50","rgb(255,255,255)");
-    ctx.font="50px Arial";
+    ctx.font="33px Arial";
     ctx.fillStyle="rgb(255,255,255)";
-    ctx.fillText(artifact[0],700,550);
-    ctx.fillText(artifact[1],700,600);
-    ctx.fillText(artifact[2],700,650);
+    ctx.fillText(artifact[0],700,600);
+    ctx.fillText(artifact[1],700,650);
+    ctx.fillText(artifact[2],700,700);
     if(editflag==1){
       ctx.strokeStyle="rgb(255,0,0)";
       ctx.lineWidth=5;
