@@ -11,19 +11,25 @@ var equip=document.createElement("img");
 equip.src="images/equip.png";
 var unequip=document.createElement("img");
 unequip.src="images/unequip.png";
+var fight=document.createElement("img");
+fight.src="images/fight.png";
 var cursor={
   x:0,
   y:0
 };
 var editingbladepoint={};
 var money=0;
-var artifact=[0,0,0];//+1BladePoint,+1Blade,BoostAllGemsEffectBy10%
-var gems=[0,0,0,0,0,0,0,0,0];//Attack(2),CriticalChance(3),CriticalDamage(0.1),Health(30),Defence(3),HealthRegenerate(1),MovingDistance(50),MovingCoolDown(3),Dodge(3)
+var artifact=[0,0,0];//+1BladePoint&BoostAllBasicGemsEffectBy10%,+1BladeCount&BoostAllAdvancedGemsEffectBy10%,+1Blade&BoostAllGemsEffectBy10%
+var enemyartifact=[0,0,0];
+var gems=[0,0,0,0,0,0,0,0,0];//Attack(2),CriticalChance(3),CriticalDamage(0.1),Health(30),Defence(3),HealthRegenerate(1),MovingDistance(20),MovingCoolDown(3),Dodge(3)
 var equipedgems=[0,0,0,0,0,0,0,0,0];
 var gemequiplimit=7
-var state=[];
+var enemyequipedgems=[0,0,0,0,0,0,0,0,0];
 var blade=[2,[-50,-50,0,-300,50,-50]];//BladeCount,[BladeX,BladeY,BladeX,BladeY...],[BladeX,BladeY,BladeX,BladeY...]...
-function DrawAttack(x,y,width,height){//           (Blade1)                         (Blade2)                        ...
+var enemyblade=[];//                (Blade1)                         (Blade2)                        ...
+var player={x:0,y:0,wanttomove:false,movingflag:false};
+var enemy={x:0,y:0,wanttomove:false,movingflag:false};
+function DrawAttack(x,y,width,height){
   ctx.fillStyle="rgb(255,100,100)";
   ctx.fillRect(x,y,width,height);
 }
@@ -238,33 +244,57 @@ document.onclick=function(){
         editingbladepoint=IsCollidedCursorToBladePoint();
         editflag=4;
       }
+    }else if(editflag==0&&IsCollidedMovingPointToPointOrPointToSurface(cursor.x,cursor.y,0,650,50,50)){
+      enemyequipedgems=[0,0,0,0,0,0,0,0,0];
+      enemyartifact=[0,0,0];
+      enemyblade=[];
+      for(var i=0;i<equipedgems[0]+equipedgems[1]+equipedgems[2]+equipedgems[3]+equipedgems[4]+equipedgems[5]+equipedgems[6]+equipedgems[7]+equipedgems[8];i++){
+        var gemequip=Random(8,0);
+        enemyequipedgems[gemequip]=enemyequipedgems[gemequip]+1;
+      }
+      for(var i=0;i<artifact[0]+artifact[1]+artifact[2];i++){
+        var artifactequip=Random(2,0);
+        enemyartifact[artifactequip]=enemyartifact[artifactequip]+1;
+      }
+      enemyblade.push(enemyartifact[1]+2);
+      for(var i=0;i<enemyartifact[2]+1;i++){//Blade
+        var creatingblade=[];
+        for(var j=0;j<(enemyartifact[0]+3;j++){//BladePoint
+          var point=AngleToCoordinateTopClockwise(Random(359,0)*2*Math.PI/360,Random(350,100));
+          creatingblade.push(point.x);
+          creatingblade.push(point.y);
+        }
+        enemyblade.push(creatingblade);
+      }
+      //player={x:0,y:0,wanttomove:false,movingflag:false};
+      flag=2;
     }else{
       editflag=0;
     }
   }
 };
-function DrawBlade(){//blade:[2,[-50,-50,0,-300,50,-50]]
+function DrawBlade(x,y,scaling,array){//blade:[2,[-50,-50,0,-300,50,-50]]
   ctx.fillStyle="rgb(150,150,150)";
   for(var i=0;i<blade.length-1;i++){//Blade
-    var thisblade=blade[i+1];
-    for(var j=0;j<blade[0];j++){//BladeCount
+    var thisblade=array[i+1];
+    for(var j=0;j<array[0];j++){//BladeCount
       if(j==0){//DrawBlade
         ctx.beginPath();
-        for(var k=0;k<blade[i+1].length/2;k++){
+        for(var k=0;k<array[i+1].length/2;k++){
           if(k==0){
-            ctx.moveTo(350+thisblade[0],350+thisblade[1]);
+            ctx.moveTo((x+thisblade[0])*scaling,(y+thisblade[1])*scaling);
           }else{
-            ctx.lineTo(350+thisblade[k*2],350+thisblade[k*2+1]);
+            ctx.lineTo((x+thisblade[k*2])*scaling,(y+thisblade[k*2+1])*scaling);
           }
         }
         ctx.fill();
       }else{
         ctx.beginPath();
-        for(var k=0;k<blade[i+1].length/2;k++){//x:350-70.71067811865476y:3501.25607396694702e-13,(*2)x:350-70.71067811865476y:3501.25607396694702e-13
+        for(var k=0;k<array[i+1].length/2;k++){//x:350-70.71067811865476y:3501.25607396694702e-13,(*2)x:350-70.71067811865476y:3501.25607396694702e-13
           if(k==0){
-            ctx.moveTo(350+AngleToCoordinateTopClockwise((CoordinateToAngleTopClockwise(thisblade[0],thisblade[1])+Math.PI*2*j/blade[0])%(Math.PI*2),GetDistance(0,0,thisblade[0],thisblade[1])).x,350+AngleToCoordinateTopClockwise((CoordinateToAngleTopClockwise(thisblade[0],thisblade[1])+Math.PI*2*j/blade[0])%(Math.PI*2),GetDistance(0,0,thisblade[0],thisblade[1])).y);
+            ctx.moveTo((x+AngleToCoordinateTopClockwise((CoordinateToAngleTopClockwise(thisblade[0],thisblade[1])+Math.PI*2*j/blade[0])%(Math.PI*2),GetDistance(0,0,thisblade[0],thisblade[1])).x)*scaling,(y+AngleToCoordinateTopClockwise((CoordinateToAngleTopClockwise(thisblade[0],thisblade[1])+Math.PI*2*j/blade[0])%(Math.PI*2),GetDistance(0,0,thisblade[0],thisblade[1])).y)*scaling);
           }else{
-            ctx.lineTo(350+AngleToCoordinateTopClockwise((CoordinateToAngleTopClockwise(thisblade[k*2],thisblade[k*2+1])+Math.PI*2*j/blade[0])%(Math.PI*2),GetDistance(0,0,thisblade[k*2],thisblade[k*2+1])).x,350+AngleToCoordinateTopClockwise((CoordinateToAngleTopClockwise(thisblade[k*2],thisblade[k*2+1])+Math.PI*2*j/blade[0])%(Math.PI*2),GetDistance(0,0,thisblade[k*2],thisblade[k*2+1])).y);
+            ctx.lineTo((x+AngleToCoordinateTopClockwise((CoordinateToAngleTopClockwise(thisblade[k*2],thisblade[k*2+1])+Math.PI*2*j/blade[0])%(Math.PI*2),GetDistance(0,0,thisblade[k*2],thisblade[k*2+1])).x)*scaling,(y+AngleToCoordinateTopClockwise((CoordinateToAngleTopClockwise(thisblade[k*2],thisblade[k*2+1])+Math.PI*2*j/blade[0])%(Math.PI*2),GetDistance(0,0,thisblade[k*2],thisblade[k*2+1])).y)*scaling);
           }
         }
         ctx.fill();
@@ -302,8 +332,7 @@ function draw(){
     ctx.fillRect(250,250,200,200);
     ctx.fillStyle="rgb(0,0,255)";
     ctx.fillRect(475,250,200,200);
-  }
-  if(flag==1){
+  }else if(flag==1){
     if(editflag==4){
       var thisblade=blade[editingbladepoint.blade];
       if(GetDistance(cursor.x,cursor.y,350,350)>350){
@@ -315,7 +344,7 @@ function draw(){
         thisblade[editingbladepoint.y]=cursor.y-350;
       }
     }
-    DrawBlade();
+    DrawBlade(350,350,1,blade);
     ctx.strokeStyle="rgb(0,0,0)";
     ctx.lineWidth=2;
     ctx.beginPath();
@@ -390,6 +419,7 @@ function draw(){
       ctx.lineWidth=5;
       ctx.strokeRect(705,71,40,23);
     }
+    ctx.drawImage(fight,0,650,50,50);
     DrawBladePoint();
   }
 }
