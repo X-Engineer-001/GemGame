@@ -259,7 +259,7 @@ document.onclick=function(){
       enemyblade.push(enemyartifact[1]+2);
       for(var i=0;i<enemyartifact[2]+1;i++){//Blade
         var creatingblade=[];
-        for(var j=0;j<(enemyartifact[0]+3;j++){//BladePoint
+        for(var j=0;j<enemyartifact[0]+3;j++){//BladePoint
           var point=AngleToCoordinateTopClockwise(Random(359,0)*2*Math.PI/360,Random(350,100));
           creatingblade.push(point.x);
           creatingblade.push(point.y);
