@@ -146,8 +146,8 @@ function IsCollidedCursorToBladePoint(){
         return {blade:i+1,x:k*2,y:k*2+1};
       }
     }
-    return false
   }
+  return false;
 }
 function IsCollidedMovingPointToPointOrPointToSurface(x,y,targetx,targety,targetwidth,targetheight){
   if(x>=targetx&&
