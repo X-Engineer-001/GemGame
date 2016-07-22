@@ -275,7 +275,7 @@ document.onclick=function(){
 };
 function DrawBlade(x,y,scaling,array){//blade:[2,[-50,-50,0,-300,50,-50]]
   ctx.fillStyle="rgb(150,150,150)";
-  for(var i=0;i<blade.length-1;i++){//Blade
+  for(var i=0;i<array.length-1;i++){//Blade
     var thisblade=array[i+1];
     for(var j=0;j<array[0];j++){//BladeCount
       if(j==0){//DrawBlade
