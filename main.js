@@ -292,9 +292,9 @@ function DrawBlade(x,y,scaling,array){//blade:[2,[-50,-50,0,-300,50,-50]]
         ctx.beginPath();
         for(var k=0;k<array[i+1].length/2;k++){//x:350-70.71067811865476y:3501.25607396694702e-13,(*2)x:350-70.71067811865476y:3501.25607396694702e-13
           if(k==0){
-            ctx.moveTo((x+AngleToCoordinateTopClockwise((CoordinateToAngleTopClockwise(thisblade[0],thisblade[1])+Math.PI*2*j/blade[0])%(Math.PI*2),GetDistance(0,0,thisblade[0],thisblade[1])).x)*scaling,(y+AngleToCoordinateTopClockwise((CoordinateToAngleTopClockwise(thisblade[0],thisblade[1])+Math.PI*2*j/blade[0])%(Math.PI*2),GetDistance(0,0,thisblade[0],thisblade[1])).y)*scaling);
+            ctx.moveTo((x+AngleToCoordinateTopClockwise((CoordinateToAngleTopClockwise(thisblade[0],thisblade[1])+Math.PI*2*j/array[0])%(Math.PI*2),GetDistance(0,0,thisblade[0],thisblade[1])).x)*scaling,(y+AngleToCoordinateTopClockwise((CoordinateToAngleTopClockwise(thisblade[0],thisblade[1])+Math.PI*2*j/array[0])%(Math.PI*2),GetDistance(0,0,thisblade[0],thisblade[1])).y)*scaling);
           }else{
-            ctx.lineTo((x+AngleToCoordinateTopClockwise((CoordinateToAngleTopClockwise(thisblade[k*2],thisblade[k*2+1])+Math.PI*2*j/blade[0])%(Math.PI*2),GetDistance(0,0,thisblade[k*2],thisblade[k*2+1])).x)*scaling,(y+AngleToCoordinateTopClockwise((CoordinateToAngleTopClockwise(thisblade[k*2],thisblade[k*2+1])+Math.PI*2*j/blade[0])%(Math.PI*2),GetDistance(0,0,thisblade[k*2],thisblade[k*2+1])).y)*scaling);
+            ctx.lineTo((x+AngleToCoordinateTopClockwise((CoordinateToAngleTopClockwise(thisblade[k*2],thisblade[k*2+1])+Math.PI*2*j/array[0])%(Math.PI*2),GetDistance(0,0,thisblade[k*2],thisblade[k*2+1])).x)*scaling,(y+AngleToCoordinateTopClockwise((CoordinateToAngleTopClockwise(thisblade[k*2],thisblade[k*2+1])+Math.PI*2*j/array[0])%(Math.PI*2),GetDistance(0,0,thisblade[k*2],thisblade[k*2+1])).y)*scaling);
           }
         }
         ctx.fill();
