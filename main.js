@@ -236,11 +236,24 @@ function GetDistance(srcx,srcy,targetx,targety){
   return Math.sqrt(Math.pow(targetx-srcx,2)+Math.pow(targety-srcy,2));
 }
 function GetVerticalDistanceAndLeftOrRight(srcx,srcy,unitvectorx,unitvectory,targetx,targety){//left:-1,Right:1,Center:0
-  if(unitvectory*(targetx-srcx)/unitvectorx-targety+srcy==0){
-    return {verticaldistance:GetAbsoluteValue((unitvectory*srcx-unitvectorx*srcy-unitvectory*targetx+unitvectorx*targety)/(Math.pow(unitvectorx,2)+Math.pow(unitvectory,2))),leftorright:0};
+  var verticaldistancevalue=GetAbsoluteValue((unitvectory*srcx-unitvectorx*srcy-unitvectory*targetx+unitvectorx*targety)/(Math.pow(unitvectorx,2)+Math.pow(unitvectory,2)));
+  var leftorrightvalue;
+  if(GetAbsoluteValue((unitvectory*srcx-unitvectorx*srcy-unitvectory*targetx+unitvectorx*targety)/(Math.pow(unitvectorx,2)+Math.pow(unitvectory,2)))==0){
+    leftorrightvalue=0;
+  }else if(unitvectorx==1){
+    leftorrightvalue=(targety-srcy)/GetAbsoluteValue(targety-srcy);
+  }else if(unitvectory==1){
+    leftorrightvalue=(srcx-targetx)/GetAbsoluteValue(srcx-targetx);
+  }else if(unitvectorx==-1){
+    leftorrightvalue=(srcy-targety)/GetAbsoluteValue(srcy-targety);
+  }else if(unitvectory==-1){
+    leftorrightvalue=(targetx-srcx)/GetAbsoluteValue(targetx-srcx);
+  }else if(unitvectorx>0){
+    leftorrightvalue=(targety-srcy-unitvectory*(targetx-srcx)/unitvectorx)/GetAbsoluteValue(targety-srcy-unitvectory*(targetx-srcx)/unitvectorx);
   }else{
-    return {verticaldistance:GetAbsoluteValue((unitvectory*srcx-unitvectorx*srcy-unitvectory*targetx+unitvectorx*targety)/(Math.pow(unitvectorx,2)+Math.pow(unitvectory,2))),leftorright:(targety-srcy-unitvectory*(targetx-srcx)/unitvectorx)/GetAbsoluteValue(targety-srcy-unitvectory*(targetx-srcx)/unitvectorx)};
+    leftorrightvalue=(unitvectory*(targetx-srcx)/unitvectorx-targety-srcy)/GetAbsoluteValue(unitvectory*(targetx-srcx)/unitvectorx-targety-srcy);
   }
+  return {verticaldistance:verticaldistancevalue,leftorright:leftorrightvalue};
 }
 function GetNodeUnitVectorToCircle(srcx,srcy,unitvectorx,unitvectory,centerx,centery,radius){
   var a=Math.pow(unitvectorx,2)+Math.pow(unitvectory,2);
@@ -458,8 +471,8 @@ function draw(){
         thistargety=thisblade[editingbladepoint.y+2];
       }
       var unitvector=GetUnitVector(thissrcx,thissrcy,thistargetx,thistargety);
-      var rightnode=GetNodeUnitVectorToCircle(thissrcx+unitvector.y*(-10)+350,thissrcy+unitvector.x*10+350,unitvector.x,unitvector.y,350,350,350);
-      var leftnode=GetNodeUnitVectorToCircle(thissrcx+unitvector.y*10+350,thissrcy+unitvector.x*(-10)+350,unitvector.x,unitvector.y,350,350,350);
+      var rightnode=GetNodeUnitVectorToCircle(thissrcx+unitvector.y*(-20)+350,thissrcy+unitvector.x*20+350,unitvector.x,unitvector.y,350,350,350);
+      var leftnode=GetNodeUnitVectorToCircle(thissrcx+unitvector.y*20+350,thissrcy+unitvector.x*(-20)+350,unitvector.x,unitvector.y,350,350,350);
       ctx.fillStyle="rgba(255,0,0,0.3)";
       ctx.beginPath();
       if(!rightnode){
@@ -485,14 +498,12 @@ function draw(){
         x=cursor.x-350;
         y=cursor.y-350;
       }
-      console.log("x"+x+"y"+y);
-      if(GetVerticalDistanceAndLeftOrRight(thissrcx+350,thissrcy+350,unitvector.x,unitvector.y,x+350,y+350).verticaldistance<10){
-        console.log("test");
-        x=x+unitvector.y*GetVerticalDistanceAndLeftOrRight(thissrcx+350,thissrcy+350,unitvector.x,unitvector.y,x+350,y+350).leftorright*(-10+GetVerticalDistanceAndLeftOrRight(thissrcx,thissrcy,unitvector.x,unitvector.y,x,y).verticaldistance);
-        y=y+unitvector.x*GetVerticalDistanceAndLeftOrRight(thissrcx+350,thissrcy+350,unitvector.x,unitvector.y,x+350,y+350).leftorright*(10-GetVerticalDistanceAndLeftOrRight(thissrcx,thissrcy,unitvector.x,unitvector.y,x,y).verticaldistance);
+      if(GetVerticalDistanceAndLeftOrRight(thissrcx+350,thissrcy+350,unitvector.x,unitvector.y,x+350,y+350).verticaldistance<20){
+        x=x+unitvector.y*GetVerticalDistanceAndLeftOrRight(thissrcx+350,thissrcy+350,unitvector.x,unitvector.y,x+350,y+350).leftorright*(-20+GetVerticalDistanceAndLeftOrRight(thissrcx,thissrcy,unitvector.x,unitvector.y,x,y).verticaldistance);
+        y=y+unitvector.x*GetVerticalDistanceAndLeftOrRight(thissrcx+350,thissrcy+350,unitvector.x,unitvector.y,x+350,y+350).leftorright*(20-GetVerticalDistanceAndLeftOrRight(thissrcx,thissrcy,unitvector.x,unitvector.y,x,y).verticaldistance);
         if(GetVerticalDistanceAndLeftOrRight(thissrcx+350,thissrcy+350,unitvector.x,unitvector.y,x+350,y+350).verticaldistance==0){
-          x=x+unitvector.y*(-10);
-          y=y+unitvector.x*10;
+          x=x+unitvector.y*(-20);
+          y=y+unitvector.x*20;
         }
         // var leftorright=GetVerticalDistanceAndLeftOrRight(thissrcx,thissrcy,unitvector.x,unitvector.y,x,y).leftorright;
         // if(!rightnode){
