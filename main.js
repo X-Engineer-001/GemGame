@@ -239,7 +239,7 @@ function GetVerticalDistanceAndLeftOrRight(srcx,srcy,unitvectorx,unitvectory,tar
   if(unitvectory*(targetx-srcx)/unitvectorx-targety+srcy==0){
     return {verticaldistance:(unitvectorx*srcy+unitvectory*srcx-unitvectorx*targety-unitvectory*targetx)/(Math.pow(unitvectorx,2)+Math.pow(unitvectory,2)),leftorright:0};
   }else{
-    return {verticaldistance:(unitvectorx*srcy+unitvectory*srcx-unitvectorx*targety-unitvectory*targetx)/(Math.pow(unitvectorx,2)+Math.pow(unitvectory,2)),leftorright:(unitvectory*(targetx-srcx)/unitvectorx-targety+srcy)/GetAbsoluteValue(unitvectory*(targetx-srcx)/unitvectorx-targety+srcy)};
+    return {verticaldistance:(unitvectorx*srcy+unitvectory*srcx-unitvectorx*targety-unitvectory*targetx)/(Math.pow(unitvectorx,2)+Math.pow(unitvectory,2)),leftorright:(targety-srcy-unitvectory*(targetx-srcx)/unitvectorx)/GetAbsoluteValue(targety-srcy-unitvectory*(targetx-srcx)/unitvectorx)};
   }
 }
 function GetNodeUnitVectorToCircle(srcx,srcy,unitvectorx,unitvectory,centerx,centery,radius){
