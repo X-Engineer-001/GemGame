@@ -474,13 +474,13 @@ function draw(){
       ctx.fill();
       var x=0;
       var y=0;
+      var cursorunitvector=GetUnitVector(350,350,cursor.x,cursor.y);
       if(GetDistance(cursor.x,cursor.y,350,350)>350){
-        var unitVector=GetUnitVector(350,350,cursor.x,cursor.y);
-        x=unitvector.x*350;
-        y=unitvector.y*350;
+        x=cursorunitvector.x*350;
+        y=cursorunitvector.y*350;
       }else if(GetDistance(cursor.x,cursor.y,350,350)<200){
-        x=unitvector.x*200;
-        y=unitvector.y*200;
+        x=cursorunitvector.x*200;
+        y=cursorunitvector.y*200;
       }else{
         x=cursor.x-350;
         y=cursor.y-350;
