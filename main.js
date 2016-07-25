@@ -247,8 +247,8 @@ function GetNodeUnitVectorToCircle(srcx,srcy,unitvectorx,unitvectory,centerx,cen
   var b=(srcx-centerx)*unitvectorx*2+(srcy-centery)*unitvectory*2;
   var c=Math.pow(srcx-centerx,2)+Math.pow(srcy-centery,2)-Math.pow(radius,2);
   var discriminant=Math.pow(b,2)-4*a*c;
-  var z1=(-1*b+Math.sqrt(discriminant))*a/2;
-  var z2=(-1*b-Math.sqrt(discriminant))*a/2;
+  var z1=(-1*b+Math.sqrt(discriminant))/a/2;
+  var z2=(-1*b-Math.sqrt(discriminant))/a/2;
   if(discriminant<0){
     return false;
   }else{
