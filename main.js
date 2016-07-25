@@ -453,7 +453,7 @@ function draw(){
         thistargety=thisblade[1];
       }else{
         thissrcx=thisblade[editingbladepoint.x-2];
-        thissrcy=thisbladethisblade[editingbladepoint.y-2];
+        thissrcy=thisblade[editingbladepoint.y-2];
         thistargetx=thisblade[editingbladepoint.x+2];
         thistargety=thisblade[editingbladepoint.y+2];
       }
@@ -564,8 +564,11 @@ function draw(){
     // ctx.fill();
     DrawBlade(350,350,1,blade);
     ctx.strokeStyle="rgb(200,200,200)";
+    ctx.lineWidth=2;
     ctx.beginPath();
     ctx.arc(350,350,350,0,Math.PI*2,false);
+    ctx.stroke();
+    ctx.beginPath();
     ctx.arc(350,350,200,0,Math.PI*2,false);
     ctx.stroke();
     DrawCore(350,350,1,equipedgems)
