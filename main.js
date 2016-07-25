@@ -27,8 +27,8 @@ var gemequiplimit=7
 var enemyequipedgems=[0,0,0,0,0,0,0,0,0];
 var blade=[2,[-50,-50,0,-300,50,-50]];//BladeCount,[BladeX,BladeY,BladeX,BladeY...],[BladeX,BladeY,BladeX,BladeY...]...
 var enemyblade=[];//                (Blade1)                         (Blade2)                        ...
-var player={x:0,y:0,wanttomove:false,movingflag:false};
-var enemy={x:0,y:0,wanttomove:false,movingflag:false};
+var player={};
+var enemy={};
 function DrawAttack(x,y,width,height){
   ctx.fillStyle="rgb(255,100,100)";
   ctx.fillRect(x,y,width,height);
@@ -88,7 +88,7 @@ function Random(max,min){
   return math;
 }
 function CoordinateToAngleTopClockwise(x,y){
-  if(x==0&&y<0){
+  if(x==0&&y<=0){
     return 0;
   }else if(x>0&&y<0){
     return (0.5*Math.PI)-Math.acos(x/GetDistance(0,0,x,y));
@@ -106,6 +106,25 @@ function CoordinateToAngleTopClockwise(x,y){
     return (1.5*Math.PI)+Math.acos(-1*x/GetDistance(0,0,x,y));
   }
 }
+function CoordinateToAngleRightClockwise(x,y){
+  if(x==0&&y<0){
+    return (1.5*Math.PI);
+  }else if(x>0&&y<0){
+    return (2*Math.PI)-Math.acos(x/GetDistance(0,0,x,y));
+  }else if(x>=0&&y==0){
+    return 0;
+  }else if(x>0&&y>0){
+    return Math.acos(x/GetDistance(0,0,x,y));
+  }else if(x==0&&y>0){
+    return (0.5*Math.PI);
+  }else if(x<0&&y>0){
+    return Math.PI-Math.acos(-1*x/GetDistance(0,0,x,y));
+  }else if(x<0&&y==0){
+    return Math.PI;
+  }else{
+    return Math.PI+Math.acos(-1*x/GetDistance(0,0,x,y));
+  }
+}
 function AngleToCoordinateRightCounterclockwise(angle,radius){
   if(angle==0){
     return {x:radius,y:0};
@@ -113,7 +132,7 @@ function AngleToCoordinateRightCounterclockwise(angle,radius){
     return {x:Math.cos(angle)*radius,y:-1*Math.sin(angle)*radius};
   }else if(angle==0.5*Math.PI){
     return {x:0,y:-1*radius};
-  }else if(angle<1*Math.PI){
+  }else if(angle<Math.PI){
     return {x:-1*Math.cos(Math.PI-angle)*radius,y:-1*Math.sin(Math.PI-angle)*radius};
   }else if(angle==Math.PI){
     return {x:-1*radius,y:0};
@@ -142,6 +161,25 @@ function AngleToCoordinateTopClockwise(angle,radius){
     return {x:-1*radius,y:0};
   }else{
     return {x:-1*Math.cos(angle-(1.5*Math.PI))*radius,y:-1*Math.sin(angle-(1.5*Math.PI))*radius};
+  }
+}
+function AngleToCoordinateRightclockwise(angle,radius){
+  if(angle==0){
+    return {x:radius,y:0};
+  }else if(angle<0.5*Math.PI){
+    return {x:Math.cos(angle)*radius,y:Math.sin(angle)*radius};
+  }else if(angle==0.5*Math.PI){
+    return {x:0,y:radius};
+  }else if(angle<Math.PI){
+    return {x:-1*Math.cos(Math.PI-angle)*radius,y:Math.sin(Math.PI-angle)*radius};
+  }else if(angle==Math.PI){
+    return {x:-1*radius,y:0};
+  }else if(angle<1.5*Math.PI){
+    return {x:-1*Math.cos(angle-Math.PI)*radius,y:-1*Math.sin(angle-Math.PI)*radius};
+  }else if(angle==1.5*Math.PI){
+    return {x:0,y:-1*radius};
+  }else{
+    return {x:Math.cos((2*Math.PI)-angle)*radius,y:-1*Math.sin((2*Math.PI)-angle)*radius};
   }
 }
 function IsCollidedCursorToBladePoint(){
@@ -180,6 +218,14 @@ function IsCollidedMovingPointToSurfaceOrSurfaceToSurface(x,y,width,height,targe
     return false;
   }
 }
+function GetAbsoluteValue(value){
+  if(value>=0){
+    return value;
+  }
+  if(value<0){
+    return (-1*value);
+  }
+}
 function GetUnitVector(srcx,srcy,targetx,targety){
   return {
     x:(targetx-srcx)/Math.sqrt(Math.pow(targetx-srcx,2)+Math.pow(targety-srcy,2)),
@@ -188,6 +234,26 @@ function GetUnitVector(srcx,srcy,targetx,targety){
 }
 function GetDistance(srcx,srcy,targetx,targety){
   return Math.sqrt(Math.pow(targetx-srcx,2)+Math.pow(targety-srcy,2));
+}
+function GetVerticalDistanceAndLeftOrRight(srcx,srcy,unitvectorx,unitvectory,targetx,targety){//left:-1,Right:1,Center:0
+  if(unitvectory*(targetx-srcx)/unitvectorx-targety+srcy==0){
+    return {verticaldistance:(unitvectorx*srcy+unitvectory*srcx-unitvectorx*targety-unitvectory*targetx)/(Math.pow(unitvectorx,2)+Math.pow(unitvectory,2)),leftorright:0};
+  }else{
+    return {verticaldistance:(unitvectorx*srcy+unitvectory*srcx-unitvectorx*targety-unitvectory*targetx)/(Math.pow(unitvectorx,2)+Math.pow(unitvectory,2)),leftorright:unitvectory*(targetx-srcx)/unitvectorx-targety+srcy/GetAbsoluteValue(unitvectory*(targetx-srcx)/unitvectorx-targety+srcy)};
+  }
+}
+function GetNodeUnitVectorToCircle(srcx,srcy,unitvectorx,unitvectory,centerx,centery,radius){
+  var a=Math.pow(unitvectorx,2)+Math.pow(unitvectory,2);
+  var b=(srcx-centerx)*unitvectorx*2+(srcy-centery)*unitvectory*2;
+  var c=Math.pow(srcx-centerx,2)+Math.pow(srcy-centery,2)-Math.pow(radius,2);
+  var discriminant=Math.pow(b,2)-4*a*c;
+  var z1=(-1*b+Math.sqrt(discriminant))*a/2;
+  var z2=(-1*b-Math.sqrt(discriminant))*a/2;
+  if(discriminant<0){
+    return false;
+  }else{
+    return {x1:srcx+(unitvectorx*z1),y1:srcy+(unitvectory*z1),x2:srcx+(unitvectorx*z2),y2:srcy+(unitvectory*z2)};
+  }
 }
 document.onmousemove=function(event){
   cursor.x=event.offsetX;
@@ -260,13 +326,14 @@ document.onclick=function(){
       for(var i=0;i<enemyartifact[2]+1;i++){//Blade
         var creatingblade=[];
         for(var j=0;j<enemyartifact[0]+3;j++){//BladePoint
-          var point=AngleToCoordinateTopClockwise(Random(359,0)*2*Math.PI/360,Random(350,100));
+          var point=AngleToCoordinateTopClockwise(Random(359,0)*2*Math.PI/360,Random(350,200));
           creatingblade.push(point.x);
           creatingblade.push(point.y);
         }
         enemyblade.push(creatingblade);
       }
-      //player={x:0,y:0,wanttomove:false,movingflag:false};
+      player={x:0,y:0,cooldownclock:0,movingclock:0,Attack:equipedgems[0]*2,CriticalChance:equipedgems[1]*3,CriticalDamage:equipedgems[2]*0.1,Health:equipedgems[3]*30,Defence:equipedgems[4]*3,HealthRegenerate:(equipedgems[3]*equipedgems[5]-((equipedgems[3]*equipedgems[5])%(equipedgems[5]+100)))/(equipedgems[5]+100)+1,MovingDistance:equipedgems[6]*20,MovingCoolDown:(FPS*200-((FPS*200)%(equipedgems[7]*3+100)))/(equipedgems[7]*3+100),Dodge:equipedgems[8]*3};
+      enemy={x:0,y:0,cooldownclock:0,movingclock:0,Attack:enemyequipedgems[0]*2,CriticalChance:enemyequipedgems[1]*3,CriticalDamage:enemyequipedgems[2]*0.1,Health:enemyequipedgems[3]*30,Defence:enemyequipedgems[4]*3,HealthRegenerate:(enemyequipedgems[3]*enemyequipedgems[5]-((enemyequipedgems[3]*enemyequipedgems[5])%(enemyequipedgems[5]+100)))/(enemyequipedgems[5]+100)+1,MovingDistance:enemyequipedgems[6]*20,MovingCoolDown:(FPS*200-((FPS*200)%(enemyequipedgems[7]*3+100)))/(enemyequipedgems[7]*3+100),Dodge:enemyequipedgems[8]*3};
       flag=2;
     }else{
       editflag=0;
@@ -323,6 +390,31 @@ function WriteFraction(numerator,denominator,x,y,font,color){
   ctx.font=font+"px Arial";
   ctx.fillText("／",x-font/4,y+font);
 }
+function DrawCore(x,y,scaling,array){
+  ctx.strokeStyle="rgb(0,0,0)";
+  ctx.lineWidth=2;
+  ctx.beginPath();
+  ctx.arc(x,y,150*scaling,0,Math.PI*2,false);
+  ctx.stroke();
+  var height0=array[0]*200*scaling/gemequiplimit;
+  var height1=array[1]*200*scaling/gemequiplimit;
+  var height2=array[2]*200*scaling/gemequiplimit;
+  var height3=array[3]*200*scaling/gemequiplimit;
+  var height4=array[4]*200*scaling/gemequiplimit;
+  var height5=array[5]*200*scaling/gemequiplimit;
+  var height6=array[6]*200*scaling/gemequiplimit;
+  var height7=array[7]*200*scaling/gemequiplimit;
+  var height8=array[8]*200*scaling/gemequiplimit;
+  DrawAttack(x-100*scaling,y-100*scaling,200*scaling,height0);
+  DrawCriticalChance(x-100*scaling,y-100*scaling+height0,200*scaling,height1);
+  DrawCriticalDamage(x-100*scaling,y-100*scaling+height0+height1,200*scaling,height2);
+  DrawHealth(x-100*scaling,y-100*scaling+height0+height1+height2,200*scaling,height3);
+  DrawDefence(x-100*scaling,y-100*scaling+height0+height1+height2+height3,200*scaling,height4);
+  DrawHealthRegenerate(x-100*scaling,y-100*scaling+height0+height1+height2+height3+height4,200*scaling,height5);
+  DrawMovingDistance(x-100*scaling,y-100*scaling+height0+height1+height2+height3+height4+height5,200*scaling,height6);
+  DrawMovingCoolDown(x-100*scaling,y-100*scaling+height0+height1+height2+height3+height4+height5+height6,200*scaling,height7);
+  DrawDodge(x-100*scaling,y-100*scaling+height0+height1+height2+height3+height4+height5+height6+height7,200*scaling,height8);
+}
 function draw(){
   ctx.drawImage(bg,0,0,750,700);
   if(flag==0){
@@ -334,44 +426,149 @@ function draw(){
     ctx.fillRect(475,250,200,200);
   }else if(flag==1){
     if(editflag==4){
+      ctx.fillStyle="rgba(255,0,0,0.3)";
+      ctx.fillRect(0,0,700,700);
+      ctx.fillStyle="rgb(255,255,255)";
+      ctx.beginPath();
+      ctx.arc(350,350,350,0,Math.PI*2,false);
+      ctx.fill();
+      ctx.fillStyle="rgba(255,0,0,0.3)";
+      ctx.beginPath();
+      ctx.arc(350,350,200,0,Math.PI*2,false);
+      ctx.fill();
       var thisblade=blade[editingbladepoint.blade];
+      var thissrcx;
+      var thissrcy;
+      var thistargetx;
+      var thistargety;
+      if(editingbladepoint.x==0){
+        thissrcx=thisblade[thisblade.length-2];
+        thissrcy=thisblade[thisblade.length-1];
+        thistargetx=thisblade[2];
+        thistargety=thisblade[3];
+      }else if(editingbladepoint.x==thisblade.length-2){
+        thissrcx=thisblade[thisblade.length-4];
+        thissrcy=thisblade[thisblade.length-3];
+        thistargetx=thisblade[0];
+        thistargety=thisblade[1];
+      }else{
+        thissrcx=thisblade[editingbladepoint.x-2];
+        thissrcy=thisbladethisblade[editingbladepoint.y-2];
+        thistargetx=thisblade[editingbladepoint.x+2];
+        thistargety=thisblade[editingbladepoint.y+2];
+      }
+      var unitVector=GetUnitVector(thissrcx,thissrcy,thistargetx,thistargety);
+      var rightnode=GetNodeUnitVectorToCircle(thissrcx+unitVector.y*(-5)+350,thissrcy+unitVector.x*5+350,unitVector.x,unitVector.y,350,350,350);
+      var leftnode=GetNodeUnitVectorToCircle(thissrcx+unitVector.y*5+350,thissrcy+unitVector.x*(-5)+350,unitVector.x,unitVector.y,350,350,350);
+      ctx.fillStyle="rgba(255,0,0,0.3)";
+      ctx.beginPath();
+      if(!rightnode){
+        ctx.arc(350,350,350,CoordinateToAngleRightClockwise(leftnode.x1,leftnode.y1),CoordinateToAngleRightClockwise(leftnode.x2,leftnode.y2),false);
+      }else if(!leftnode){
+        ctx.arc(350,350,350,CoordinateToAngleRightClockwise(rightnode.x2,rightnode.y2),CoordinateToAngleRightClockwise(rightnode.x1,rightnode.y1),false);
+      }else{
+        ctx.arc(350,350,350,CoordinateToAngleRightClockwise(leftnode.x1,leftnode.y1),CoordinateToAngleRightClockwise(rightnode.x1,rightnode.y1),false);
+        ctx.lineTo(rightnode.x2,rightnode.y2);
+        ctx.arc(350,350,350,CoordinateToAngleRightClockwise(rightnode.x2,rightnode.y2),CoordinateToAngleRightClockwise(leftnode.x2,leftnode.y2),false);
+      }
+      ctx.fill();
+      var x=0;
+      var y=0;
       if(GetDistance(cursor.x,cursor.y,350,350)>350){
         var unitVector=GetUnitVector(350,350,cursor.x,cursor.y);
-        thisblade[editingbladepoint.x]=unitVector.x*350;
-        thisblade[editingbladepoint.y]=unitVector.y*350;
+        x=unitVector.x*350;
+        y=unitVector.y*350;
+      }else if(GetDistance(cursor.x,cursor.y,350,350)<200){
+        x=unitVector.x*200;
+        y=unitVector.y*200;
       }else{
-        thisblade[editingbladepoint.x]=cursor.x-350;
-        thisblade[editingbladepoint.y]=cursor.y-350;
+        x=cursor.x-350;
+        y=cursor.y-350;
       }
+      if(GetVerticalDistanceAndLeftOrRight(thissrcx,thissrcy,unitvector.x,unitvector.y,x,y).verticaldistance<5){
+        x=x+unitVector.y*GetVerticalDistanceAndLeftOrRight(thissrcx,thissrcy,unitvector.x,unitvector.y,x,y).leftorright*(-5+GetVerticalDistanceAndLeftOrRight(thissrcx,thissrcy,unitvector.x,unitvector.y,x,y).verticaldistance);
+        y=y+unitVector.x*GetVerticalDistanceAndLeftOrRight(thissrcx,thissrcy,unitvector.x,unitvector.y,x,y).leftorright*(5-GetVerticalDistanceAndLeftOrRight(thissrcx,thissrcy,unitvector.x,unitvector.y,x,y).verticaldistance);
+        if(GetVerticalDistanceAndLeftOrRight(thissrcx,thissrcy,unitvector.x,unitvector.y,x,y).verticaldistance==0){
+          x=x+unitVector.y*(-5);
+          y=y+unitVector.x*5;
+        }
+        var leftorright=GetVerticalDistanceAndLeftOrRight(thissrcx,thissrcy,unitvector.x,unitvector.y,x,y).leftorright;
+        if(!rightnode){
+          var frontorback=GetVerticalDistanceAndLeftOrRight((leftnode.x1+leftnode.x2)/2,(leftnode.y1+leftnode.y2)/2,unitvector.y*(-1),unitvector.x,x,y).leftorright;
+        }else{
+          var frontorback=GetVerticalDistanceAndLeftOrRight((rightnode.x1+rightnode.x2)/2,(rightnode.y1+rightnode.y2)/2,unitvector.y*(-1),unitvector.x,x,y).leftorright;
+        }
+        if(GetDistance(x,y,350,350)>350){
+          if(!rightnode){
+            if(frontorback<=0){
+              x=leftnode.x1;
+              y=leftnode.y1;
+            }else{
+              x=leftnode.x2;
+              y=leftnode.y2;
+            }
+          }else if(!leftnode){
+            if(frontorback<=0){
+              x=rightnode.x1;
+              y=rightnode.y1;
+            }else{
+              x=rightnode.x2;
+              y=rightnode.y2;
+            }
+          }else if(leftorright>=0){
+            if(frontorback<=0){
+              x=rightnode.x1;
+              y=rightnode.y1;
+            }else{
+              x=rightnode.x2;
+              y=rightnode.y2;
+            }
+          }else{
+            if(frontorback<=0){
+              x=leftnode.x1;
+              y=leftnode.y1;
+            }else{
+              x=leftnode.x2;
+              y=leftnode.y2;
+            }
+          }
+        }else if(GetDistance(x,y,350,350)<200){
+          if(leftorright>=0){
+            var rightnode200=GetNodeUnitVectorToCircle(thissrcx+unitVector.y*(-5)+350,thissrcy+unitVector.x*5+350,unitVector.x,unitVector.y,350,350,200);
+            if(frontorback<=0){
+              x=rightnode200.x1;
+              y=rightnode200.y1;
+            }else{
+              x=rightnode200.x2;
+              y=rightnode200.y2;
+            }
+          }else{
+            var leftnode200=GetNodeUnitVectorToCircle(thissrcx+unitVector.y*5+350,thissrcy+unitVector.x*(-5)+350,unitVector.x,unitVector.y,350,350,200);
+            if(frontorback<=0){
+              x=leftnode200.x1;
+              y=leftnode200.y1;
+            }else{
+              x=leftnode200.x2;
+              y=leftnode200.y2;
+            }
+          }
+        }
+      }
+      thisblade[editingbladepoint.x]=x;
+      thisblade[editingbladepoint.y]=y;
     }
+    // ctx.fillStyle="rgb(255,255,255)";
+    // ctx.beginPath();
+    // ctx.rect(0,0,750,700);
+    // ctx.ctx.arc(350,350,350,0,Math.PI*2,false);
+    // ctx.fill();
     DrawBlade(350,350,1,blade);
-    ctx.strokeStyle="rgb(0,0,0)";
-    ctx.lineWidth=2;
-    ctx.beginPath();
-    ctx.arc(350,350,50,0,Math.PI*2,true);
-    ctx.stroke();
     ctx.strokeStyle="rgb(200,200,200)";
     ctx.beginPath();
-    ctx.arc(350,350,350,0,Math.PI*2,true);
+    ctx.arc(350,350,350,0,Math.PI*2,false);
+    ctx.arc(350,350,200,0,Math.PI*2,false);
     ctx.stroke();
-    var height0=equipedgems[0]*60/gemequiplimit;
-    var height1=equipedgems[1]*60/gemequiplimit;
-    var height2=equipedgems[2]*60/gemequiplimit;
-    var height3=equipedgems[3]*60/gemequiplimit;
-    var height4=equipedgems[4]*60/gemequiplimit;
-    var height5=equipedgems[5]*60/gemequiplimit;
-    var height6=equipedgems[6]*60/gemequiplimit;
-    var height7=equipedgems[7]*60/gemequiplimit;
-    var height8=equipedgems[8]*60/gemequiplimit;
-    DrawAttack(320,320,60,height0);
-    DrawCriticalChance(320,320+height0,60,height1);
-    DrawCriticalDamage(320,320+height0+height1,60,height2);
-    DrawHealth(320,320+height0+height1+height2,60,height3);
-    DrawDefence(320,320+height0+height1+height2+height3,60,height4);
-    DrawHealthRegenerate(320,320+height0+height1+height2+height3+height4,60,height5);
-    DrawMovingDistance(320,320+height0+height1+height2+height3+height4+height5,60,height6);
-    DrawMovingCoolDown(320,320+height0+height1+height2+height3+height4+height5+height6,60,height7);
-    DrawDodge(320,320+height0+height1+height2+height3+height4+height5+height6+height7,60,height8);
+    DrawCore(350,350,1,equipedgems)
     ctx.drawImage(sell,700,0,50,33);
     ctx.drawImage(equip,700,33,50,33);
     ctx.drawImage(unequip,700,66,50,33);
@@ -421,6 +618,8 @@ function draw(){
     }
     ctx.drawImage(fight,0,650,50,50);
     DrawBladePoint();
+  }else if(flag==2){
+    DrawBlade()
   }
 }
 setInterval(draw,1000/FPS)
