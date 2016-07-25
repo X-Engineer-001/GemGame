@@ -239,7 +239,7 @@ function GetVerticalDistanceAndLeftOrRight(srcx,srcy,unitvectorx,unitvectory,tar
   if(unitvectory*(targetx-srcx)/unitvectorx-targety+srcy==0){
     return {verticaldistance:(unitvectorx*srcy+unitvectory*srcx-unitvectorx*targety-unitvectory*targetx)/(Math.pow(unitvectorx,2)+Math.pow(unitvectory,2)),leftorright:0};
   }else{
-    return {verticaldistance:(unitvectorx*srcy+unitvectory*srcx-unitvectorx*targety-unitvectory*targetx)/(Math.pow(unitvectorx,2)+Math.pow(unitvectory,2)),leftorright:unitvectory*(targetx-srcx)/unitvectorx-targety+srcy/GetAbsoluteValue(unitvectory*(targetx-srcx)/unitvectorx-targety+srcy)};
+    return {verticaldistance:(unitvectorx*srcy+unitvectory*srcx-unitvectorx*targety-unitvectory*targetx)/(Math.pow(unitvectorx,2)+Math.pow(unitvectory,2)),leftorright:(unitvectory*(targetx-srcx)/unitvectorx-targety+srcy)/GetAbsoluteValue(unitvectory*(targetx-srcx)/unitvectorx-targety+srcy)};
   }
 }
 function GetNodeUnitVectorToCircle(srcx,srcy,unitvectorx,unitvectory,centerx,centery,radius){
@@ -428,7 +428,7 @@ function draw(){
     if(editflag==4){
       ctx.fillStyle="rgba(255,0,0,0.3)";
       ctx.fillRect(0,0,700,700);
-      ctx.fillStyle="rgba(255,255,255,1)";
+      ctx.fillStyle="rgb(255,255,255)";
       ctx.beginPath();
       ctx.arc(350,350,350,0,Math.PI*2,false);
       ctx.fill();
@@ -563,7 +563,7 @@ function draw(){
     // ctx.ctx.arc(350,350,350,0,Math.PI*2,false);
     // ctx.fill();
     DrawBlade(350,350,1,blade);
-    ctx.strokeStyle="rgba(200,200,200,1)";
+    ctx.strokeStyle="rgb(200,200,200)";
     ctx.lineWidth=2;
     ctx.beginPath();
     ctx.arc(350,350,350,0,Math.PI*2,false);
