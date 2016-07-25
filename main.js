@@ -463,13 +463,13 @@ function draw(){
       ctx.fillStyle="rgba(255,0,0,0.3)";
       ctx.beginPath();
       if(!rightnode){
-        ctx.arc(350,350,350,CoordinateToAngleRightClockwise(leftnode.x1,leftnode.y1),CoordinateToAngleRightClockwise(leftnode.x2,leftnode.y2),false);
+        ctx.arc(350,350,350,CoordinateToAngleRightClockwise(leftnode.x1-350,leftnode.y1-350),CoordinateToAngleRightClockwise(leftnode.x2-350,leftnode.y2-350),false);
       }else if(!leftnode){
-        ctx.arc(350,350,350,CoordinateToAngleRightClockwise(rightnode.x2,rightnode.y2),CoordinateToAngleRightClockwise(rightnode.x1,rightnode.y1),false);
+        ctx.arc(350,350,350,CoordinateToAngleRightClockwise(rightnode.x2-350,rightnode.y2-350),CoordinateToAngleRightClockwise(rightnode.x1-350,rightnode.y1-350),false);
       }else{
-        ctx.arc(350,350,350,CoordinateToAngleRightClockwise(leftnode.x1,leftnode.y1),CoordinateToAngleRightClockwise(rightnode.x1,rightnode.y1),false);
+        ctx.arc(350,350,350,CoordinateToAngleRightClockwise(leftnode.x1-350,leftnode.y1-350),CoordinateToAngleRightClockwise(rightnode.x1-350,rightnode.y1-350),false);
         ctx.lineTo(rightnode.x2,rightnode.y2);
-        ctx.arc(350,350,350,CoordinateToAngleRightClockwise(rightnode.x2,rightnode.y2),CoordinateToAngleRightClockwise(leftnode.x2,leftnode.y2),false);
+        ctx.arc(350,350,350,CoordinateToAngleRightClockwise(rightnode.x2-350,rightnode.y2-350),CoordinateToAngleRightClockwise(leftnode.x2-350,leftnode.y2-350),false);
       }
       ctx.fill();
       var x=0;
