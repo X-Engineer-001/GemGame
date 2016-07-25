@@ -498,61 +498,61 @@ function draw(){
         }else{
           var frontorback=GetVerticalDistanceAndLeftOrRight((rightnode.x1+rightnode.x2)/2,(rightnode.y1+rightnode.y2)/2,unitvector.y*(-1),unitvector.x,x,y).leftorright;
         }
-        if(GetDistance(x,y,350,350)>350){
-          if(!rightnode){
-            if(frontorback<=0){
-              x=leftnode.x1;
-              y=leftnode.y1;
-            }else{
-              x=leftnode.x2;
-              y=leftnode.y2;
-            }
-          }else if(!leftnode){
-            if(frontorback<=0){
-              x=rightnode.x1;
-              y=rightnode.y1;
-            }else{
-              x=rightnode.x2;
-              y=rightnode.y2;
-            }
-          }else if(leftorright>=0){
-            if(frontorback<=0){
-              x=rightnode.x1;
-              y=rightnode.y1;
-            }else{
-              x=rightnode.x2;
-              y=rightnode.y2;
-            }
-          }else{
-            if(frontorback<=0){
-              x=leftnode.x1;
-              y=leftnode.y1;
-            }else{
-              x=leftnode.x2;
-              y=leftnode.y2;
-            }
-          }
-        }else if(GetDistance(x,y,350,350)<200){
-          if(leftorright>=0){
-            var rightnode200=GetNodeUnitVectorToCircle(thissrcx+unitvector.y*(-5)+350,thissrcy+unitvector.x*5+350,unitvector.x,unitvector.y,350,350,200);
-            if(frontorback<=0){
-              x=rightnode200.x1;
-              y=rightnode200.y1;
-            }else{
-              x=rightnode200.x2;
-              y=rightnode200.y2;
-            }
-          }else{
-            var leftnode200=GetNodeUnitVectorToCircle(thissrcx+unitvector.y*5+350,thissrcy+unitvector.x*(-5)+350,unitvector.x,unitvector.y,350,350,200);
-            if(frontorback<=0){
-              x=leftnode200.x1;
-              y=leftnode200.y1;
-            }else{
-              x=leftnode200.x2;
-              y=leftnode200.y2;
-            }
-          }
-        }
+        // if(GetDistance(x,y,350,350)>350){
+        //   if(!rightnode){
+        //     if(frontorback<=0){
+        //       x=leftnode.x1;
+        //       y=leftnode.y1;
+        //     }else{
+        //       x=leftnode.x2;
+        //       y=leftnode.y2;
+        //     }
+        //   }else if(!leftnode){
+        //     if(frontorback<=0){
+        //       x=rightnode.x1;
+        //       y=rightnode.y1;
+        //     }else{
+        //       x=rightnode.x2;
+        //       y=rightnode.y2;
+        //     }
+        //   }else if(leftorright>=0){
+        //     if(frontorback<=0){
+        //       x=rightnode.x1;
+        //       y=rightnode.y1;
+        //     }else{
+        //       x=rightnode.x2;
+        //       y=rightnode.y2;
+        //     }
+        //   }else{
+        //     if(frontorback<=0){
+        //       x=leftnode.x1;
+        //       y=leftnode.y1;
+        //     }else{
+        //       x=leftnode.x2;
+        //       y=leftnode.y2;
+        //     }
+        //   }
+        // }else if(GetDistance(x,y,350,350)<200){
+        //   if(leftorright>=0){
+        //     var rightnode200=GetNodeUnitVectorToCircle(thissrcx+unitvector.y*(-5)+350,thissrcy+unitvector.x*5+350,unitvector.x,unitvector.y,350,350,200);
+        //     if(frontorback<=0){
+        //       x=rightnode200.x1;
+        //       y=rightnode200.y1;
+        //     }else{
+        //       x=rightnode200.x2;
+        //       y=rightnode200.y2;
+        //     }
+        //   }else{
+        //     var leftnode200=GetNodeUnitVectorToCircle(thissrcx+unitvector.y*5+350,thissrcy+unitvector.x*(-5)+350,unitvector.x,unitvector.y,350,350,200);
+        //     if(frontorback<=0){
+        //       x=leftnode200.x1;
+        //       y=leftnode200.y1;
+        //     }else{
+        //       x=leftnode200.x2;
+        //       y=leftnode200.y2;
+        //     }
+        //   }
+        // }
       }
       thisblade[editingbladepoint.x]=x;
       thisblade[editingbladepoint.y]=y;
