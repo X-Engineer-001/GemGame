@@ -485,6 +485,7 @@ function draw(){
         x=cursor.x-350;
         y=cursor.y-350;
       }
+      console.log("x"+x+"y"+y);
       if(GetVerticalDistanceAndLeftOrRight(thissrcx,thissrcy,unitvector.x,unitvector.y,x,y).verticaldistance<5){
         console.log("test");
         x=x+unitvector.y*GetVerticalDistanceAndLeftOrRight(thissrcx,thissrcy,unitvector.x,unitvector.y,x,y).leftorright*(-5+GetVerticalDistanceAndLeftOrRight(thissrcx,thissrcy,unitvector.x,unitvector.y,x,y).verticaldistance);
@@ -558,11 +559,6 @@ function draw(){
       thisblade[editingbladepoint.x]=x;
       thisblade[editingbladepoint.y]=y;
     }
-    // ctx.fillStyle="rgb(255,255,255)";
-    // ctx.beginPath();
-    // ctx.rect(0,0,750,700);
-    // ctx.ctx.arc(350,350,350,0,Math.PI*2,false);
-    // ctx.fill();
     DrawBlade(350,350,1,blade);
     ctx.strokeStyle="rgb(200,200,200)";
     ctx.lineWidth=2;
@@ -626,4 +622,4 @@ function draw(){
     DrawBlade()
   }
 }
-setInterval(draw,1000/FPS)
+setInterval(draw,1000/*/FPS*/)
