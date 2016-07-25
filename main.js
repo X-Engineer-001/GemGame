@@ -453,7 +453,7 @@ function draw(){
         thistargety=thisblade[1];
       }else{
         thissrcx=thisblade[editingbladepoint.x-2];
-        thissrcy=thisbladeveditingbladepoint.y-2];
+        thissrcy=thisblade[editingbladepoint.y-2];
         thistargetx=thisblade[editingbladepoint.x+2];
         thistargety=thisblade[editingbladepoint.y+2];
       }
