@@ -458,8 +458,8 @@ function draw(){
         thistargety=thisblade[editingbladepoint.y+2];
       }
       var unitvector=GetUnitVector(thissrcx,thissrcy,thistargetx,thistargety);
-      var rightnode=GetNodeUnitVectorToCircle(thissrcx+unitvector.y*(-5)+350,thissrcy+unitvector.x*5+350,unitvector.x,unitvector.y,350,350,350);
-      var leftnode=GetNodeUnitVectorToCircle(thissrcx+unitvector.y*5+350,thissrcy+unitvector.x*(-5)+350,unitvector.x,unitvector.y,350,350,350);
+      var rightnode=GetNodeUnitVectorToCircle(thissrcx+unitvector.y*(-10)+350,thissrcy+unitvector.x*10+350,unitvector.x,unitvector.y,350,350,350);
+      var leftnode=GetNodeUnitVectorToCircle(thissrcx+unitvector.y*10+350,thissrcy+unitvector.x*(-10)+350,unitvector.x,unitvector.y,350,350,350);
       ctx.fillStyle="rgba(255,0,0,0.3)";
       ctx.beginPath();
       if(!rightnode){
@@ -486,13 +486,13 @@ function draw(){
         y=cursor.y-350;
       }
       console.log("x"+x+"y"+y);
-      if(GetVerticalDistanceAndLeftOrRight(thissrcx+350,thissrcy+350,unitvector.x,unitvector.y,x+350,y+350).verticaldistance<5){
+      if(GetVerticalDistanceAndLeftOrRight(thissrcx+350,thissrcy+350,unitvector.x,unitvector.y,x+350,y+350).verticaldistance<10){
         console.log("test");
-        x=x+unitvector.y*GetVerticalDistanceAndLeftOrRight(thissrcx+350,thissrcy+350,unitvector.x,unitvector.y,x+350,y+350).leftorright*(-5+GetVerticalDistanceAndLeftOrRight(thissrcx,thissrcy,unitvector.x,unitvector.y,x,y).verticaldistance);
-        y=y+unitvector.x*GetVerticalDistanceAndLeftOrRight(thissrcx+350,thissrcy+350,unitvector.x,unitvector.y,x+350,y+350).leftorright*(5-GetVerticalDistanceAndLeftOrRight(thissrcx,thissrcy,unitvector.x,unitvector.y,x,y).verticaldistance);
+        x=x+unitvector.y*GetVerticalDistanceAndLeftOrRight(thissrcx+350,thissrcy+350,unitvector.x,unitvector.y,x+350,y+350).leftorright*(-10+GetVerticalDistanceAndLeftOrRight(thissrcx,thissrcy,unitvector.x,unitvector.y,x,y).verticaldistance);
+        y=y+unitvector.x*GetVerticalDistanceAndLeftOrRight(thissrcx+350,thissrcy+350,unitvector.x,unitvector.y,x+350,y+350).leftorright*(10-GetVerticalDistanceAndLeftOrRight(thissrcx,thissrcy,unitvector.x,unitvector.y,x,y).verticaldistance);
         if(GetVerticalDistanceAndLeftOrRight(thissrcx+350,thissrcy+350,unitvector.x,unitvector.y,x+350,y+350).verticaldistance==0){
-          x=x+unitVector.y*(-5);
-          y=y+unitVector.x*5;
+          x=x+unitvector.y*(-10);
+          y=y+unitvector.x*10;
         }
         // var leftorright=GetVerticalDistanceAndLeftOrRight(thissrcx,thissrcy,unitvector.x,unitvector.y,x,y).leftorright;
         // if(!rightnode){
