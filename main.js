@@ -622,4 +622,4 @@ function draw(){
     DrawBlade()
   }
 }
-setInterval(draw,1000/*/FPS*/)
+setInterval(draw,1000/FPS)
