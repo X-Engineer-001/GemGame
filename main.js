@@ -428,7 +428,7 @@ function draw(){
     if(editflag==4){
       ctx.fillStyle="rgba(255,0,0,0.3)";
       ctx.fillRect(0,0,700,700);
-      ctx.fillStyle="rgb(255,255,255)";
+      ctx.fillStyle="rgba(255,255,255,1)";
       ctx.beginPath();
       ctx.arc(350,350,350,0,Math.PI*2,false);
       ctx.fill();
@@ -563,7 +563,7 @@ function draw(){
     // ctx.ctx.arc(350,350,350,0,Math.PI*2,false);
     // ctx.fill();
     DrawBlade(350,350,1,blade);
-    ctx.strokeStyle="rgb(200,200,200)";
+    ctx.strokeStyle="rgba(200,200,200,1)";
     ctx.lineWidth=2;
     ctx.beginPath();
     ctx.arc(350,350,350,0,Math.PI*2,false);
