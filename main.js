@@ -633,8 +633,8 @@ function draw(){
     }
     ctx.drawImage(fight,0,650,50,50);
     DrawBladePoint();
-  }else if(flag==2){
+  }/*else if(flag==2){
     DrawBlade()
-  }
+  }*/
 }
 setInterval(draw,1000/FPS)
