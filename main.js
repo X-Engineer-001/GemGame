@@ -503,8 +503,8 @@ function draw(){
         y=cursor.y-350;
       }
       if(GetVerticalDistanceAndLeftOrRight(thissrcx+350,thissrcy+350,unitvector.x,unitvector.y,x+350,y+350).verticaldistance<width){
-        x=x+unitvector.y*GetVerticalDistanceAndLeftOrRight(thissrcx+350,thissrcy+350,unitvector.x,unitvector.y,x+350,y+350).leftorright*(-1*width+GetVerticalDistanceAndLeftOrRight(thissrcx,thissrcy,unitvector.x,unitvector.y,x,y).verticaldistance);
-        y=y+unitvector.x*GetVerticalDistanceAndLeftOrRight(thissrcx+350,thissrcy+350,unitvector.x,unitvector.y,x+350,y+350).leftorright*(width-GetVerticalDistanceAndLeftOrRight(thissrcx,thissrcy,unitvector.x,unitvector.y,x,y).verticaldistance);
+        x=x+unitvector.y*GetVerticalDistanceAndLeftOrRight(thissrcx+350,thissrcy+350,unitvector.x,unitvector.y,x+350,y+350).leftorright*(-1*width+GetVerticalDistanceAndLeftOrRight(thissrcx+350,thissrcy+350,unitvector.x,unitvector.y,x+350,y+350).verticaldistance);
+        y=y+unitvector.x*GetVerticalDistanceAndLeftOrRight(thissrcx+350,thissrcy+350,unitvector.x,unitvector.y,x+350,y+350).leftorright*(width-GetVerticalDistanceAndLeftOrRight(thissrcx+350,thissrcy+350,unitvector.x,unitvector.y,x+350,y+350).verticaldistance);
         if(GetVerticalDistanceAndLeftOrRight(thissrcx+350,thissrcy+350,unitvector.x,unitvector.y,x+350,y+350).verticaldistance==0){
           x=x+unitvector.y*-1*width;
           y=y+unitvector.x*width;
