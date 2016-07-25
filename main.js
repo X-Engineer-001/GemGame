@@ -453,7 +453,7 @@ function draw(){
         thistargety=thisblade[1];
       }else{
         thissrcx=thisblade[editingbladepoint.x-2];
-        thissrcy=thisblade[editingbladepoint.y-2];
+        thissrcy=thisbladeveditingbladepoint.y-2];
         thistargetx=thisblade[editingbladepoint.x+2];
         thistargety=thisblade[editingbladepoint.y+2];
       }
@@ -486,8 +486,8 @@ function draw(){
         y=cursor.y-350;
       }
       if(GetVerticalDistanceAndLeftOrRight(thissrcx,thissrcy,unitvector.x,unitvector.y,x,y).verticaldistance<5){
-        x=x+unitVector.y*GetVerticalDistanceAndLeftOrRight(thissrcx,thissrcy,unitvector.x,unitvector.y,x,y).leftorright*(-5+GetVerticalDistanceAndLeftOrRight(thissrcx,thissrcy,unitvector.x,unitvector.y,x,y).verticaldistance);
-        y=y+unitVector.x*GetVerticalDistanceAndLeftOrRight(thissrcx,thissrcy,unitvector.x,unitvector.y,x,y).leftorright*(5-GetVerticalDistanceAndLeftOrRight(thissrcx,thissrcy,unitvector.x,unitvector.y,x,y).verticaldistance);
+        x=x+unitvector.y*GetVerticalDistanceAndLeftOrRight(thissrcx,thissrcy,unitvector.x,unitvector.y,x,y).leftorright*(-5+GetVerticalDistanceAndLeftOrRight(thissrcx,thissrcy,unitvector.x,unitvector.y,x,y).verticaldistance);
+        y=y+unitvector.x*GetVerticalDistanceAndLeftOrRight(thissrcx,thissrcy,unitvector.x,unitvector.y,x,y).leftorright*(5-GetVerticalDistanceAndLeftOrRight(thissrcx,thissrcy,unitvector.x,unitvector.y,x,y).verticaldistance);
         if(GetVerticalDistanceAndLeftOrRight(thissrcx,thissrcy,unitvector.x,unitvector.y,x,y).verticaldistance==0){
           x=x+unitVector.y*(-5);
           y=y+unitVector.x*5;
