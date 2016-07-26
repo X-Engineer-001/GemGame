@@ -492,15 +492,15 @@ function draw(){
       ctx.fill();
       var x=0;
       var y=0;
-      var cursorunitvector=GetUnitVector(350,350,cursor.x,cursor.y);
+      // var cursorunitvector=GetUnitVector(350,350,cursor.x,cursor.y);
       x=cursor.x-350;
       y=cursor.y-350;
-      var leftorright;
+      var leftorright=leftorright=GetVerticalDistanceAndLeftOrRight(thissrcx,thissrcy,unitvector.x,unitvector.y,x,y).leftorright;;
       var frontorback;
       if(GetVerticalDistanceAndLeftOrRight(thissrcx,thissrcy,unitvector.x,unitvector.y,x,y).verticaldistance<width){
         var record=x;
-        x=x+unitvector.y*GetVerticalDistanceAndLeftOrRight(thissrcx,thissrcy,unitvector.x,unitvector.y,x,y).leftorright*(-1*width+GetVerticalDistanceAndLeftOrRight(thissrcx,thissrcy,unitvector.x,unitvector.y,x,y).verticaldistance);
-        y=y+unitvector.x*GetVerticalDistanceAndLeftOrRight(thissrcx,thissrcy,unitvector.x,unitvector.y,record,y).leftorright*(width-GetVerticalDistanceAndLeftOrRight(thissrcx,thissrcy,unitvector.x,unitvector.y,record,y).verticaldistance);
+        x=x+unitvector.y*leftorright*(-1*width+GetVerticalDistanceAndLeftOrRight(thissrcx,thissrcy,unitvector.x,unitvector.y,x,y).verticaldistance);
+        y=y+unitvector.x*leftorright*(width-GetVerticalDistanceAndLeftOrRight(thissrcx,thissrcy,unitvector.x,unitvector.y,record,y).verticaldistance);
         if(GetVerticalDistanceAndLeftOrRight(thissrcx,thissrcy,unitvector.x,unitvector.y,x,y).verticaldistance==0){
           x=x+unitvector.y*-1*width;
           y=y+unitvector.x*width;
@@ -563,8 +563,9 @@ function draw(){
         // }
       }
       if(GetDistance(x,y,0,0)>350){
+        var record=x;
         x=GetUnitVector(0,0,x,y).x*350;
-        y=GetUnitVector(0,0,x,y).y*350;
+        y=GetUnitVector(0,0,record,y).y*350;
         if(GetVerticalDistanceAndLeftOrRight(thissrcx,thissrcy,unitvector.x,unitvector.y,x,y).verticaldistance<width){
           if(!rightnode){
             frontorback=GetVerticalDistanceAndLeftOrRight((leftnode.x1+leftnode.x2)/2,(leftnode.y1+leftnode.y2)/2,unitvector.y*(-1),unitvector.x,x,y).leftorright;
