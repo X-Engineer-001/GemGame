@@ -747,8 +747,8 @@ function draw(){
     ctx.drawImage(fight,0,650,50,50);
     DrawBladePoint();
   }else if(flag==2){
-    DrawBlade(player.x,player.y,blade,0.1,true);
-    DrawBlade(enemy.x,enemy.y,enemyblade,0.1,true);
+    DrawBlade(player.x,player.y,0.1,blade,true);
+    DrawBlade(enemy.x,enemy.y,0.1,enemyblade,true);
   }
 }
 setInterval(draw,1000/FPS);
