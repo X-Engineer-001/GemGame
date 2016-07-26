@@ -518,7 +518,23 @@ function draw(){
           var frontorback=GetVerticalDistanceAndLeftOrRight((rightnode.x1+rightnode.x2)/2,(rightnode.y1+rightnode.y2)/2,unitvector.y*(-1),unitvector.x,x,y).leftorright;
         }
         if(GetDistance(x,y,0,0)>350){
-          if(!leftnode||leftorright>=0){
+          if(!rightnode){
+            if(frontorback<=0){
+              x=leftnode.x1-350;
+              y=leftnode.y1-350;
+            }else{
+              x=leftnode.x2-350;
+              y=leftnode.y2-350;
+            }
+          }else if(!leftnode){
+            if(frontorback<=0){
+              x=rightnode.x1-350;
+              y=rightnode.y1-350;
+            }else{
+              x=rightnode.x2-350;
+              y=rightnode.y2-350;
+            }
+          }else if(leftorright>=0){
             if(frontorback<=0){
               x=rightnode.x1-350;
               y=rightnode.y1-350;
