@@ -446,10 +446,6 @@ function draw(){
       ctx.beginPath();
       ctx.arc(350,350,350,0,Math.PI*2,false);
       ctx.fill();
-      ctx.fillStyle="rgba(255,0,0,0.3)";
-      ctx.beginPath();
-      ctx.arc(350,350,200,0,Math.PI*2,false);
-      ctx.fill();
       var thisblade=blade[editingbladepoint.blade];
       var thissrcx;
       var thissrcy;
@@ -490,6 +486,15 @@ function draw(){
         ctx.arc(350,350,350,CoordinateToAngleRightClockwise(rightnode.x2-350,rightnode.y2-350),CoordinateToAngleRightClockwise(leftnode.x2-350,leftnode.y2-350),false);
       }
       ctx.fill();
+      ctx.fillStyle="rgb(255,255,255)";
+      ctx.beginPath();
+      ctx.arc(350,350,200,0,Math.PI*2,false);
+      ctx.fill();
+      ctx.fillStyle="rgba(255,0,0,0.3)";
+      ctx.beginPath();
+      ctx.arc(350,350,200,0,Math.PI*2,false);
+      ctx.fill();
+      ctx.beginPath();
       var x=0;
       var y=0;
       var cursorunitvector=GetUnitVector(350,350,cursor.x,cursor.y);
