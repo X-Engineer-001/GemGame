@@ -566,13 +566,14 @@ function draw(){
         var record=x;
         x=GetUnitVector(0,0,x,y).x*350;
         y=GetUnitVector(0,0,record,y).y*350;
+        console.log("1 x"+x+"y"+y);
         if(GetVerticalDistanceAndLeftOrRight(thissrcx,thissrcy,unitvector.x,unitvector.y,x,y).verticaldistance<width){
           if(!rightnode){
             frontorback=GetVerticalDistanceAndLeftOrRight((leftnode.x1+leftnode.x2)/2-350,(leftnode.y1+leftnode.y2)/2-350,unitvector.y*(-1),unitvector.x,x,y).leftorright;
           }else{
             frontorback=GetVerticalDistanceAndLeftOrRight((rightnode.x1+rightnode.x2)/2-350,(rightnode.y1+rightnode.y2)/2-350,unitvector.y*(-1),unitvector.x,x,y).leftorright;
           }
-          console.log(frontorback);
+          // console.log(frontorback);
           if(leftorright==-1){
             if(!leftnode){
               var record=x;
@@ -603,11 +604,13 @@ function draw(){
             }
           }
         }
+        console.log("2 x"+x+"y"+y);
       }
       if(GetDistance(x,y,0,0)<200){
         var record=x;
         x=GetUnitVector(0,0,x,y).x*200;
         y=GetUnitVector(0,0,record,y).y*200;
+        console.log("3 x"+x+"y"+y);
         if(GetVerticalDistanceAndLeftOrRight(thissrcx,thissrcy,unitvector.x,unitvector.y,x,y).verticaldistance<width){
           if(!rightnode){
             frontorback=GetVerticalDistanceAndLeftOrRight((leftnode.x1+leftnode.x2)/2-350,(leftnode.y1+leftnode.y2)/2-350,unitvector.y*(-1),unitvector.x,x,y).leftorright;
@@ -634,6 +637,7 @@ function draw(){
             }
           }
         }
+        console.log("4 x"+x+"y"+y);
       }
       thisblade[editingbladepoint.x]=x;
       thisblade[editingbladepoint.y]=y;
