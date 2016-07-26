@@ -238,7 +238,7 @@ function GetDistance(srcx,srcy,targetx,targety){
 function GetVerticalDistanceAndLeftOrRight(srcx,srcy,unitvectorx,unitvectory,targetx,targety){//left:-1,Right:1,Center:0
   var verticaldistancevalue=GetAbsoluteValue((unitvectory*srcx-unitvectorx*srcy-unitvectory*targetx+unitvectorx*targety)/(Math.pow(unitvectorx,2)+Math.pow(unitvectory,2)));
   var leftorrightvalue;
-  if(GetAbsoluteValue((unitvectory*srcx-unitvectorx*srcy-unitvectory*targetx+unitvectorx*targety)/(Math.pow(unitvectorx,2)+Math.pow(unitvectory,2)))==0){
+  if(verticaldistancevalue<=0.0000000001){
     leftorrightvalue=0;
   }else if(unitvectorx==1){
     leftorrightvalue=(targety-srcy)/GetAbsoluteValue(targety-srcy);
