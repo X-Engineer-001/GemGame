@@ -406,14 +406,18 @@ function DrawBlade(x,y,scaling,array,spin){//blade:[2,[-50,-50,0,-300,50,-50]]
       }
     }//
   }else{
-    ctx.fillStyle="rgba(150,150,150,0.3)";
+    ctx.fillStyle="rgba(150,150,150,0.5)";
     for(var i=0;i<array.length-1;i++){//Blade
       var thisblade=array[i+1];//DrawBlade
       var outerradius=GetDistance(thisblade[0],thisblade[1],0,0);
       var innerradius=GetDistance(thisblade[0],thisblade[1],0,0);
+      outerradius=Math.max(GetVerticalDistanceAndLeftOrRight(thisblade[0],thisblade[1],GetUnitVector(thisblade[0],thisblade[1],thisblade[thisblade.length-2],thisblade[thisblade.length-1]).x,GetUnitVector(thisblade[0],thisblade[1],thisblade[thisblade.length-2],thisblade[thisblade.length-1]).y,0,0).verticaldistance,outerradius);
+      innerradius=Math.min(GetVerticalDistanceAndLeftOrRight(thisblade[0],thisblade[1],GetUnitVector(thisblade[0],thisblade[1],thisblade[thisblade.length-2],thisblade[thisblade.length-1]).x,GetUnitVector(thisblade[0],thisblade[1],thisblade[thisblade.length-2],thisblade[thisblade.length-1]).y,0,0).verticaldistance,innerradius);
       for(var j=0;j<thisblade.length/2-1;j++){
         outerradius=Math.max(GetDistance(thisblade[j*2+2],thisblade[j*2+3],0,0),outerradius);
         innerradius=Math.min(GetDistance(thisblade[j*2+2],thisblade[j*2+3],0,0),innerradius);
+        outerradius=Math.max(GetVerticalDistanceAndLeftOrRight(thisblade[j*2+2],thisblade[j*2+3],GetUnitVector(thisblade[j*2+2],thisblade[j*2+3],thisblade[j*2],thisblade[j*2+1]).x,GetUnitVector(thisblade[j*2+2],thisblade[j*2+3],thisblade[j*2],thisblade[j*2+1]).y,0,0).verticaldistance,outerradius);
+        innerradius=Math.min(GetVerticalDistanceAndLeftOrRight(thisblade[j*2+2],thisblade[j*2+3],GetUnitVector(thisblade[j*2+2],thisblade[j*2+3],thisblade[j*2],thisblade[j*2+1]).x,GetUnitVector(thisblade[j*2+2],thisblade[j*2+3],thisblade[j*2],thisblade[j*2+1]).y,0,0).verticaldistance,innerradius);
       }
       ctx.beginPath();
       ctx.arc(x,y,outerradius*scaling,0,Math.PI*2,false);
