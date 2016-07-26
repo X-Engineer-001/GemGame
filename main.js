@@ -1,9 +1,9 @@
 var FPS=60;
-var flag=0;
+var flag=0;//flag
 var editflag=0;
-var canvas=document.getElementById("gamecanvas");
+var canvas=document.getElementById("gamecanvas");//canvas
 var ctx=canvas.getContext("2d");
-var bg=document.createElement("img");
+var bg=document.createElement("img");//images
 bg.src="images/bg.png";
 var sell=document.createElement("img");
 sell.src="images/sell.png";
@@ -13,22 +13,24 @@ var unequip=document.createElement("img");
 unequip.src="images/unequip.png";
 var fight=document.createElement("img");
 fight.src="images/fight.png";
-var cursor={
+var cursor={//all
   x:0,
   y:0
 };
-var editingbladepoint={};
+var editingbladepoint={};//edit
 var money=0;
 var artifact=[0,0,0];//+1BladePoint&BoostAllBasicGemsEffectBy10%,+1BladeCount&BoostAllAdvancedGemsEffectBy10%,+1Blade&BoostAllGemsEffectBy10%
 var enemyartifact=[0,0,0];
-var gems=[0,0,0,0,0,0,0,0,0];//Attack(2),CriticalChance(3),CriticalDamage(0.1),Health(30),Defence(3),HealthRegenerate(1),MovingDistance(20),MovingCoolDown(3),Dodge(3)
+var gems=[0,0,0,0,0,0,0,0,0];//Attack(2),CriticalChance(3),CriticalDamage(0.1),Health(30),Defence(3),HealthRegenerate(Health/30),MovingDistance(20),MovingCoolDown(3),Dodge(3)
 var equipedgems=[0,0,0,0,0,0,0,0,0];
 var gemequiplimit=7
-var enemyequipedgems=[0,0,0,0,0,0,0,0,0];
-var blade=[2,[-200,-200,0,-340,200,-200]];//BladeCount,[BladeX,BladeY,BladeX,BladeY...],[BladeX,BladeY,BladeX,BladeY...]...
-var enemyblade=[];//                (Blade1)                         (Blade2)                        ...
+var blade=[2,[-200,-200,0,-340,200,-200]];//BladeCount,[BladeX,BladeY,BladeX,BladeY...](Blade1),[BladeX,BladeY,BladeX,BladeY...](Blade2)...
+var enemyequipedgems=[0,0,0,0,0,0,0,0,0];//fight
+var enemyblade=[];
 var player={};
 var enemy={};
+var uisorce=['','CRITICAL','regenerate','dodge'];
+var uiclock=[];//[x,y,event(uisorce),value,clock]
 function DrawAttack(x,y,width,height){
   ctx.fillStyle="rgb(255,100,100)";
   ctx.fillRect(x,y,width,height);
@@ -338,50 +340,88 @@ document.onclick=function(){
       }
       enemyblade.push(enemyartifact[1]+2);
       for(var i=0;i<enemyartifact[2]+1;i++){//Blade
+        var thissrcx;
+        var thissrcy;
+        var thistargetx;
+        var thistargety;
         var creatingblade=[];
         for(var j=0;j<enemyartifact[0]+3;j++){//BladePoint
           var point=AngleToCoordinateTopClockwise(Random(359,0)*2*Math.PI/360,Random(350,200));
+          if(j>=2){
+            thissrcx=creatingblade[creatingblade.length-4];
+            thissrcy=creatingblade[creatingblade.length-3];
+            thistargetx=creatingblade[0];
+            thistargety=creatingblade[1];
+            var width=6000/GetDistance(thissrcx,thissrcy,thistargetx,thistargety)
+            if(width<20){
+              width=20;
+            }
+            var unitvector=GetUnitVector(thissrcx,thissrcy,thistargetx,thistargety);
+            for(var k=0;k<10;k++){
+              if(GetVerticalDistanceAndLeftOrRight(thissrcx,thissrcy,unitvector.x,unitvector.y,point.x,point.y).verticaldistance<width)){
+                point=AngleToCoordinateTopClockwise(Random(359,0)*2*Math.PI/360,Random(350,200));
+              }
+            }
+          }
           creatingblade.push(point.x);
           creatingblade.push(point.y);
         }
         enemyblade.push(creatingblade);
       }
-      player={x:0,y:0,cooldownclock:0,movingclock:0,Attack:equipedgems[0]*2,CriticalChance:equipedgems[1]*3,CriticalDamage:equipedgems[2]*0.1,Health:equipedgems[3]*30,Defence:equipedgems[4]*3,HealthRegenerate:(equipedgems[3]*equipedgems[5]-((equipedgems[3]*equipedgems[5])%(equipedgems[5]+100)))/(equipedgems[5]+100)+1,MovingDistance:equipedgems[6]*20,MovingCoolDown:(FPS*200-((FPS*200)%(equipedgems[7]*3+100)))/(equipedgems[7]*3+100),Dodge:equipedgems[8]*3};
-      enemy={x:0,y:0,cooldownclock:0,movingclock:0,Attack:enemyequipedgems[0]*2,CriticalChance:enemyequipedgems[1]*3,CriticalDamage:enemyequipedgems[2]*0.1,Health:enemyequipedgems[3]*30,Defence:enemyequipedgems[4]*3,HealthRegenerate:(enemyequipedgems[3]*enemyequipedgems[5]-((enemyequipedgems[3]*enemyequipedgems[5])%(enemyequipedgems[5]+100)))/(enemyequipedgems[5]+100)+1,MovingDistance:enemyequipedgems[6]*20,MovingCoolDown:(FPS*200-((FPS*200)%(enemyequipedgems[7]*3+100)))/(enemyequipedgems[7]*3+100),Dodge:enemyequipedgems[8]*3};
+      player={x:600,y:600,cooldownclock:0,Attack:equipedgems[0]*2*(10+artifact[0]+artifact[2])/10,CriticalChance:Math.floor(equipedgems[1]*3*(10+artifact[1]+artifact[2])/10),CriticalDamage:equipedgems[2]*0.1*(10+artifact[1]+artifact[2])/10,Health:equipedgems[3]*30*(10+artifact[0]+artifact[2])/10,Defence:Math.floor(equipedgems[4]*3*(10+artifact[1]+artifact[2])/10),HealthRegenerate:equipedgems[3]*equipedgems[5]/(equipedgems[5]+100)*(10+artifact[1]+artifact[2])/10,MovingDistance:equipedgems[6]*20*(10+artifact[0]+artifact[2])/10,MovingCoolDown:Math.floor(FPS*200/(equipedgems[7]*3+100)*(10+artifact[1]+artifact[2])/10),Dodge:Math.floor(equipedgems[8]*3*(10+artifact[1]+artifact[2])/10)};
+      enemy={x:100,y:100,cooldownclock:0,Attack:enemyequipedgems[0]*2*(10+enemyartifact[0]+enemyartifact[2])/10,CriticalChance:Math.floor(enemyequipedgems[1]*3*(10+enemyartifact[1]+enemyartifact[2])/10),CriticalDamage:enemyequipedgems[2]*0.1*(10+enemyartifact[1]+enemyartifact[2])/10,Health:enemyequipedgems[3]*30*(10+enemyartifact[0]+enemyartifact[2])/10,Defence:Math.floor(enemyequipedgems[4]*3*(10+enemyartifact[1]+enemyartifact[2])/10),HealthRegenerate:enemyequipedgems[3]*enemyequipedgems[5]/(enemyequipedgems[5]+100)*(10+enemyartifact[1]+enemyartifact[2])/10,MovingDistance:enemyequipedgems[6]*20*(10+enemyartifact[0]+enemyartifact[2])/10,MovingCoolDown:Math.floor(FPS*200/(enemyequipedgems[7]*3+100)*(10+enemyartifact[1]+enemyartifact[2])/10),Dodge:Math.floor(enemyequipedgems[8]*3*(10+enemyartifact[1]+enemyartifact[2])/10)};
       flag=2;
     }else{
       editflag=0;
     }
   }
 };
-function DrawBlade(x,y,scaling,array){//blade:[2,[-50,-50,0,-300,50,-50]]
-  ctx.fillStyle="rgb(150,150,150)";
-  for(var i=0;i<array.length-1;i++){//Blade
-    var thisblade=array[i+1];
-    for(var j=0;j<array[0];j++){//BladeCount
-      if(j==0){//DrawBlade
-        ctx.beginPath();
-        for(var k=0;k<array[i+1].length/2;k++){
-          if(k==0){
-            ctx.moveTo((x+thisblade[0])*scaling,(y+thisblade[1])*scaling);
-          }else{
-            ctx.lineTo((x+thisblade[k*2])*scaling,(y+thisblade[k*2+1])*scaling);
+function DrawBlade(x,y,scaling,array,spin){//blade:[2,[-50,-50,0,-300,50,-50]]
+  if(!spin){
+    ctx.fillStyle="rgb(150,150,150)";
+    for(var i=0;i<array.length-1;i++){//Blade
+      var thisblade=array[i+1];
+      for(var j=0;j<array[0];j++){//BladeCount
+        if(j==0){//DrawBlade
+          ctx.beginPath();
+          for(var k=0;k<array[i+1].length/2;k++){
+            if(k==0){
+              ctx.moveTo((x+thisblade[0])*scaling,(y+thisblade[1])*scaling);
+            }else{
+              ctx.lineTo((x+thisblade[k*2])*scaling,(y+thisblade[k*2+1])*scaling);
+            }
           }
-        }
-        ctx.fill();
-      }else{
-        ctx.beginPath();
-        for(var k=0;k<array[i+1].length/2;k++){//x:350-70.71067811865476y:3501.25607396694702e-13,(*2)x:350-70.71067811865476y:3501.25607396694702e-13
-          if(k==0){
-            ctx.moveTo((x+AngleToCoordinateTopClockwise((CoordinateToAngleTopClockwise(thisblade[0],thisblade[1])+Math.PI*2*j/array[0])%(Math.PI*2),GetDistance(0,0,thisblade[0],thisblade[1])).x)*scaling,(y+AngleToCoordinateTopClockwise((CoordinateToAngleTopClockwise(thisblade[0],thisblade[1])+Math.PI*2*j/array[0])%(Math.PI*2),GetDistance(0,0,thisblade[0],thisblade[1])).y)*scaling);
-          }else{
-            ctx.lineTo((x+AngleToCoordinateTopClockwise((CoordinateToAngleTopClockwise(thisblade[k*2],thisblade[k*2+1])+Math.PI*2*j/array[0])%(Math.PI*2),GetDistance(0,0,thisblade[k*2],thisblade[k*2+1])).x)*scaling,(y+AngleToCoordinateTopClockwise((CoordinateToAngleTopClockwise(thisblade[k*2],thisblade[k*2+1])+Math.PI*2*j/array[0])%(Math.PI*2),GetDistance(0,0,thisblade[k*2],thisblade[k*2+1])).y)*scaling);
+          ctx.fill();
+        }else{
+          ctx.beginPath();
+          for(var k=0;k<array[i+1].length/2;k++){//x:350-70.71067811865476y:3501.25607396694702e-13,(*2)x:350-70.71067811865476y:3501.25607396694702e-13
+            if(k==0){
+              ctx.moveTo((x+AngleToCoordinateTopClockwise((CoordinateToAngleTopClockwise(thisblade[0],thisblade[1])+Math.PI*2*j/array[0])%(Math.PI*2),GetDistance(0,0,thisblade[0],thisblade[1])).x)*scaling,(y+AngleToCoordinateTopClockwise((CoordinateToAngleTopClockwise(thisblade[0],thisblade[1])+Math.PI*2*j/array[0])%(Math.PI*2),GetDistance(0,0,thisblade[0],thisblade[1])).y)*scaling);
+            }else{
+              ctx.lineTo((x+AngleToCoordinateTopClockwise((CoordinateToAngleTopClockwise(thisblade[k*2],thisblade[k*2+1])+Math.PI*2*j/array[0])%(Math.PI*2),GetDistance(0,0,thisblade[k*2],thisblade[k*2+1])).x)*scaling,(y+AngleToCoordinateTopClockwise((CoordinateToAngleTopClockwise(thisblade[k*2],thisblade[k*2+1])+Math.PI*2*j/array[0])%(Math.PI*2),GetDistance(0,0,thisblade[k*2],thisblade[k*2+1])).y)*scaling);
+            }
           }
+          ctx.fill();
         }
-        ctx.fill();
       }
-    }
-  }//
+    }//
+  }else{
+    ctx.fillStyle="rgba(150,150,150,0.3)";
+    for(var i=0;i<array.length-1;i++){//Blade
+      var thisblade=array[i+1];//DrawBlade
+      var outerradius=GetDistance(thisblade[0],thisblade[1],0,0);
+      var innerradius=GetDistance(thisblade[0],thisblade[1],0,0);
+      for(var j=0;j<thisblade.length/2-1;j++){
+        outerradius=Math.max(GetDistance(thisblade[j*2+2],thisblade[j*2+3],0,0),outerradius);
+        innerradius=Math.min(GetDistance(thisblade[j*2+2],thisblade[j*2+3],0,0),innerradius);
+      }
+      ctx.beginPath();
+      ctx.arc(x,y,outerradius*scaling,0,Math.PI*2,false);
+      ctx.arc(x,y,innerradius*scaling,Math.PI*2,0,true);
+      ctx.closePath();
+      ctx.fill();
+    }//
+  }
 }
 function DrawBladePoint(){//blade:[2,[-50,-50,0,-300,50,-50]]
   ctx.fillStyle="rgb(150,150,150)";
@@ -647,7 +687,7 @@ function draw(){
       thisblade[editingbladepoint.x]=x;
       thisblade[editingbladepoint.y]=y;
     }
-    DrawBlade(350,350,1,blade);
+    DrawBlade(350,350,1,blade,false);
     ctx.strokeStyle="rgb(200,200,200)";
     ctx.lineWidth=2;
     ctx.beginPath();
@@ -706,8 +746,9 @@ function draw(){
     }
     ctx.drawImage(fight,0,650,50,50);
     DrawBladePoint();
-  }/*else if(flag==2){
-    DrawBlade()
-  }*/
+  }else if(flag==2){
+    DrawBlade(player.x,player.y,blade,0.1,true);
+    DrawBlade(enemy.x,enemy.y,enemyblade,0.1,true);
+  }
 }
 setInterval(draw,1000/FPS);
