@@ -509,6 +509,7 @@ function draw(){
           x=x+unitvector.y*-1*width;
           y=y+unitvector.x*width;
         }
+        console.log("width"+width+"now"+GetVerticalDistanceAndLeftOrRight(thissrcx,thissrcy,unitvector.x,unitvector.y,x,y).verticaldistance);
         // var leftorright=GetVerticalDistanceAndLeftOrRight(thissrcx,thissrcy,unitvector.x,unitvector.y,x,y).leftorright;
         // if(!rightnode){
         //   var frontorback=GetVerticalDistanceAndLeftOrRight((leftnode.x1+leftnode.x2)/2,(leftnode.y1+leftnode.y2)/2,unitvector.y*(-1),unitvector.x,x,y).leftorright;
