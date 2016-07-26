@@ -495,7 +495,7 @@ function draw(){
       // var cursorunitvector=GetUnitVector(350,350,cursor.x,cursor.y);
       x=cursor.x-350;
       y=cursor.y-350;
-      var leftorright=leftorright=GetVerticalDistanceAndLeftOrRight(thissrcx,thissrcy,unitvector.x,unitvector.y,x,y).leftorright;;
+      var leftorright=GetVerticalDistanceAndLeftOrRight(thissrcx,thissrcy,unitvector.x,unitvector.y,x,y).leftorright;
       var frontorback;
       if(GetVerticalDistanceAndLeftOrRight(thissrcx,thissrcy,unitvector.x,unitvector.y,x,y).verticaldistance<width){
         var record=x;
@@ -566,7 +566,7 @@ function draw(){
         var record=x;
         x=GetUnitVector(0,0,x,y).x*350;
         y=GetUnitVector(0,0,record,y).y*350;
-        console.log("1 x"+x+"y"+y);
+        // console.log("1 x"+x+"y"+y);
         if(GetVerticalDistanceAndLeftOrRight(thissrcx,thissrcy,unitvector.x,unitvector.y,x,y).verticaldistance<width){
           if(!rightnode){
             frontorback=GetVerticalDistanceAndLeftOrRight((leftnode.x1+leftnode.x2)/2-350,(leftnode.y1+leftnode.y2)/2-350,unitvector.y*(-1),unitvector.x,x,y).leftorright;
@@ -604,14 +604,15 @@ function draw(){
             }
           }
         }
-        console.log("2 x"+x+"y"+y);
+        // console.log("2 x"+x+"y"+y);
       }
       if(GetDistance(x,y,0,0)<200){
         var record=x;
         x=GetUnitVector(0,0,x,y).x*200;
         y=GetUnitVector(0,0,record,y).y*200;
-        console.log("3 x"+x+"y"+y);
+        // console.log("3 x"+x+"y"+y);
         if(GetVerticalDistanceAndLeftOrRight(thissrcx,thissrcy,unitvector.x,unitvector.y,x,y).verticaldistance<width){
+          leftorright=GetVerticalDistanceAndLeftOrRight(thissrcx,thissrcy,unitvector.x,unitvector.y,x,y).leftorright;
           if(!rightnode){
             frontorback=GetVerticalDistanceAndLeftOrRight((leftnode.x1+leftnode.x2)/2-350,(leftnode.y1+leftnode.y2)/2-350,unitvector.y*(-1),unitvector.x,x,y).leftorright;
           }else{
@@ -637,7 +638,7 @@ function draw(){
             }
           }
         }
-        console.log("4 x"+x+"y"+y);
+        // console.log("4 x"+x+"y"+y);
       }
       thisblade[editingbladepoint.x]=x;
       thisblade[editingbladepoint.y]=y;
