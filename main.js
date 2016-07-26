@@ -492,7 +492,7 @@ function draw(){
       ctx.fill();
       var x=0;
       var y=0;
-      // var cursorunitvector=GetUnitVector(350,350,cursor.x,cursor.y);
+      var cursorunitvector=GetUnitVector(350,350,cursor.x,cursor.y);
       x=cursor.x-350;
       y=cursor.y-350;
       var leftorright=GetVerticalDistanceAndLeftOrRight(thissrcx,thissrcy,unitvector.x,unitvector.y,x,y).leftorright;
@@ -564,8 +564,8 @@ function draw(){
       }
       if(GetDistance(x,y,0,0)>350){
         var record=x;
-        x=GetUnitVector(0,0,x,y).x*350;
-        y=GetUnitVector(0,0,record,y).y*350;
+        x=cursorunitvector.x*350;
+        y=cursorunitvector.y*350;
         // console.log("1 x"+x+"y"+y);
         if(GetVerticalDistanceAndLeftOrRight(thissrcx,thissrcy,unitvector.x,unitvector.y,x,y).verticaldistance<width){
           if(!rightnode){
@@ -608,8 +608,8 @@ function draw(){
       }
       if(GetDistance(x,y,0,0)<200){
         var record=x;
-        x=GetUnitVector(0,0,x,y).x*200;
-        y=GetUnitVector(0,0,record,y).y*200;
+        x=cursorunitvector.x*200;
+        y=cursorunitvector.y*200;
         // console.log("3 x"+x+"y"+y);
         if(GetVerticalDistanceAndLeftOrRight(thissrcx,thissrcy,unitvector.x,unitvector.y,x,y).verticaldistance<width){
           leftorright=GetVerticalDistanceAndLeftOrRight(thissrcx,thissrcy,unitvector.x,unitvector.y,x,y).leftorright;
