@@ -239,6 +239,7 @@ function GetVerticalDistanceAndLeftOrRight(srcx,srcy,unitvectorx,unitvectory,tar
   var verticaldistancevalue=GetAbsoluteValue((unitvectory*srcx-unitvectorx*srcy-unitvectory*targetx+unitvectorx*targety)/(Math.pow(unitvectorx,2)+Math.pow(unitvectory,2)));
   var leftorrightvalue;
   if(verticaldistancevalue<=0.0000000001){
+    verticaldistancevalue=0;
     leftorrightvalue=0;
   }else if(unitvectorx==1){
     leftorrightvalue=(targety-srcy)/GetAbsoluteValue(targety-srcy);
@@ -503,8 +504,9 @@ function draw(){
         y=cursor.y-350;
       }
       if(GetVerticalDistanceAndLeftOrRight(thissrcx,thissrcy,unitvector.x,unitvector.y,x,y).verticaldistance<width){
+        var record=x;
         x=x+unitvector.y*GetVerticalDistanceAndLeftOrRight(thissrcx,thissrcy,unitvector.x,unitvector.y,x,y).leftorright*(-1*width+GetVerticalDistanceAndLeftOrRight(thissrcx,thissrcy,unitvector.x,unitvector.y,x,y).verticaldistance);
-        y=y+unitvector.x*GetVerticalDistanceAndLeftOrRight(thissrcx,thissrcy,unitvector.x,unitvector.y,x,y).leftorright*(width-GetVerticalDistanceAndLeftOrRight(thissrcx,thissrcy,unitvector.x,unitvector.y,x,y).verticaldistance);
+        y=y+unitvector.x*GetVerticalDistanceAndLeftOrRight(thissrcx,thissrcy,unitvector.x,unitvector.y,record,y).leftorright*(width-GetVerticalDistanceAndLeftOrRight(thissrcx,thissrcy,unitvector.x,unitvector.y,record,y).verticaldistance);
         if(GetVerticalDistanceAndLeftOrRight(thissrcx,thissrcy,unitvector.x,unitvector.y,x,y).verticaldistance==0){
           x=x+unitvector.y*-1*width;
           y=y+unitvector.x*width;
