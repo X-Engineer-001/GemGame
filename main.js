@@ -358,7 +358,7 @@ document.onclick=function(){
             }
             var unitvector=GetUnitVector(thissrcx,thissrcy,thistargetx,thistargety);
             for(var k=0;k<10;k++){
-              if(GetVerticalDistanceAndLeftOrRight(thissrcx,thissrcy,unitvector.x,unitvector.y,point.x,point.y).verticaldistance<width)){
+              if(GetVerticalDistanceAndLeftOrRight(thissrcx,thissrcy,unitvector.x,unitvector.y,point.x,point.y).verticaldistance<width){
                 point=AngleToCoordinateTopClockwise(Random(359,0)*2*Math.PI/360,Random(350,200));
               }
             }
