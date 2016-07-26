@@ -520,39 +520,39 @@ function draw(){
         if(GetDistance(x,y,0,0)>350){
           if(!leftnode||leftorright>=0){
             if(frontorback<=0){
-              x=rightnode.x1;
-              y=rightnode.y1;
+              x=rightnode.x1-350;
+              y=rightnode.y1-350;
             }else{
-              x=rightnode.x2;
-              y=rightnode.y2;
+              x=rightnode.x2-350;
+              y=rightnode.y2-350;
             }
           }else{
             if(frontorback<=0){
-              x=leftnode.x1;
-              y=leftnode.y1;
+              x=leftnode.x1-350;
+              y=leftnode.y1-350;
             }else{
-              x=leftnode.x2;
-              y=leftnode.y2;
+              x=leftnode.x2-350;
+              y=leftnode.y2-350;
             }
           }
         }else if(GetDistance(x,y,0,0)<200){
           if(leftorright>=0){
             var rightnode200=GetNodeUnitVectorToCircle(thissrcx+unitvector.y*(-5)+350,thissrcy+unitvector.x*5+350,unitvector.x,unitvector.y,350,350,200);
             if(frontorback<=0){
-              x=rightnode200.x1;
-              y=rightnode200.y1;
+              x=rightnode200.x1-350;
+              y=rightnode200.y1-350;
             }else{
-              x=rightnode200.x2;
-              y=rightnode200.y2;
+              x=rightnode200.x2-350;
+              y=rightnode200.y2-350;
             }
           }else{
             var leftnode200=GetNodeUnitVectorToCircle(thissrcx+unitvector.y*5+350,thissrcy+unitvector.x*(-5)+350,unitvector.x,unitvector.y,350,350,200);
             if(frontorback<=0){
-              x=leftnode200.x1;
-              y=leftnode200.y1;
+              x=leftnode200.x1-350;
+              y=leftnode200.y1-350;
             }else{
-              x=leftnode200.x2;
-              y=leftnode200.y2;
+              x=leftnode200.x2-350;
+              y=leftnode200.y2-350;
             }
           }
         }
