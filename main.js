@@ -494,7 +494,6 @@ function draw(){
       ctx.beginPath();
       ctx.arc(350,350,200,0,Math.PI*2,false);
       ctx.fill();
-      ctx.beginPath();
       var x=0;
       var y=0;
       var cursorunitvector=GetUnitVector(350,350,cursor.x,cursor.y);
