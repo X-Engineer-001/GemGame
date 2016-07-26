@@ -568,9 +568,9 @@ function draw(){
         y=GetUnitVector(0,0,record,y).y*350;
         if(GetVerticalDistanceAndLeftOrRight(thissrcx,thissrcy,unitvector.x,unitvector.y,x,y).verticaldistance<width){
           if(!rightnode){
-            frontorback=GetVerticalDistanceAndLeftOrRight((leftnode.x1+leftnode.x2)/2,(leftnode.y1+leftnode.y2)/2,unitvector.y*(-1),unitvector.x,x,y).leftorright;
+            frontorback=GetVerticalDistanceAndLeftOrRight((leftnode.x1+leftnode.x2-)/2-350,(leftnode.y1+leftnode.y2)/2-350,unitvector.y*(-1),unitvector.x,x,y).leftorright;
           }else{
-            frontorback=GetVerticalDistanceAndLeftOrRight((rightnode.x1+rightnode.x2)/2,(rightnode.y1+rightnode.y2)/2,unitvector.y*(-1),unitvector.x,x,y).leftorright;
+            frontorback=GetVerticalDistanceAndLeftOrRight((rightnode.x1+rightnode.x2)/2-350,(rightnode.y1+rightnode.y2)/2-350,unitvector.y*(-1),unitvector.x,x,y).leftorright;
           }
           console.log(frontorback);
           if(leftorright==-1){
