@@ -572,6 +572,7 @@ function draw(){
           }else{
             frontorback=GetVerticalDistanceAndLeftOrRight((rightnode.x1+rightnode.x2)/2,(rightnode.y1+rightnode.y2)/2,unitvector.y*(-1),unitvector.x,x,y).leftorright;
           }
+          console.log(frontorback);
           if(leftorright==-1){
             if(!leftnode){
               var record=x;
@@ -602,7 +603,8 @@ function draw(){
             }
           }
         }
-      }else if(GetDistance(x,y,0,0)<200){
+      }
+      if(GetDistance(x,y,0,0)<200){
         var record=x;
         x=GetUnitVector(0,0,x,y).x*200;
         y=GetUnitVector(0,0,record,y).y*200;
