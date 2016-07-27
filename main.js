@@ -220,6 +220,26 @@ function IsCollidedMovingPointToSurfaceOrSurfaceToSurface(x,y,width,height,targe
     return false;
   }
 }
+function IsCollidedPointToIrregularSurface(pointarray,targetx,targety){//pointarray:[pointx,pointy,pointx,pointy...]
+  var array=[];
+  if((pointarray[pointarray.length-2]>=targetx&&pointarray[0]<=targetx)||(pointarray[0]>=targetx&&pointarray[pointarray.length-2]<=targetx)){
+    var unitvector=GetUnitVector(pointarray[pointarray.length-2],pointarray[pointarray.length-1],pointarray[0],pointarray[1]);
+    array.push(pointarray[pointarray.length-1]+unitvector.y*(targetx-pointarray[pointarray.length-2])/unitvector.x);
+  }
+  for(var i=0;i<pointarray.length/2-1;i++){
+    if((pointarray[i*2]>=targetx&&pointarray[i*2+2]<=targetx)||(pointarray[i*2+2]>=targetx&&pointarray[i*2]<=targetx)){
+      var unitvector=GetUnitVector(pointarray[i*2],pointarray[i*2+1],pointarray[i*2+2],pointarray[i*2+3]);
+      array.push(pointarray[i*2+1]+unitvector.y*(targetx-pointarray[i*2])/unitvector.x);
+    }
+  }
+  array.sort(function(a,b){return a-b;});
+  for(var i=0;i<array.length/2;i++){
+    if(array[i*2]<=targety&&array[i*2+1]>=targety){
+      return true;
+    }
+  }
+  return false;
+}
 function GetAbsoluteValue(value){
   if(value>=0){
     return value;
@@ -411,17 +431,22 @@ function DrawBlade(x,y,scaling,array,spin){//blade:[2,[-50,-50,0,-300,50,-50]]
       var thisblade=array[i+1];//DrawBlade
       var outerradius=GetDistance(thisblade[0],thisblade[1],0,0);
       var innerradius=GetDistance(thisblade[0],thisblade[1],0,0);
-      outerradius=Math.max(GetVerticalDistanceAndLeftOrRight(thisblade[0],thisblade[1],GetUnitVector(thisblade[0],thisblade[1],thisblade[thisblade.length-2],thisblade[thisblade.length-1]).x,GetUnitVector(thisblade[0],thisblade[1],thisblade[thisblade.length-2],thisblade[thisblade.length-1]).y,0,0).verticaldistance,outerradius);
       innerradius=Math.min(GetVerticalDistanceAndLeftOrRight(thisblade[0],thisblade[1],GetUnitVector(thisblade[0],thisblade[1],thisblade[thisblade.length-2],thisblade[thisblade.length-1]).x,GetUnitVector(thisblade[0],thisblade[1],thisblade[thisblade.length-2],thisblade[thisblade.length-1]).y,0,0).verticaldistance,innerradius);
       for(var j=0;j<thisblade.length/2-1;j++){
         outerradius=Math.max(GetDistance(thisblade[j*2+2],thisblade[j*2+3],0,0),outerradius);
         innerradius=Math.min(GetDistance(thisblade[j*2+2],thisblade[j*2+3],0,0),innerradius);
-        outerradius=Math.max(GetVerticalDistanceAndLeftOrRight(thisblade[j*2+2],thisblade[j*2+3],GetUnitVector(thisblade[j*2+2],thisblade[j*2+3],thisblade[j*2],thisblade[j*2+1]).x,GetUnitVector(thisblade[j*2+2],thisblade[j*2+3],thisblade[j*2],thisblade[j*2+1]).y,0,0).verticaldistance,outerradius);
         innerradius=Math.min(GetVerticalDistanceAndLeftOrRight(thisblade[j*2+2],thisblade[j*2+3],GetUnitVector(thisblade[j*2+2],thisblade[j*2+3],thisblade[j*2],thisblade[j*2+1]).x,GetUnitVector(thisblade[j*2+2],thisblade[j*2+3],thisblade[j*2],thisblade[j*2+1]).y,0,0).verticaldistance,innerradius);
       }
       ctx.beginPath();
       ctx.arc(x,y,outerradius*scaling,0,Math.PI*2,false);
-      ctx.arc(x,y,innerradius*scaling,Math.PI*2,0,true);
+      // var recordflag=true;
+      // if()
+      // for(i=0,i<){
+      //
+      // }
+      if(!IsCollidedPointToIrregularSurface(thisblade,0,0)){
+        ctx.arc(x,y,innerradius*scaling,Math.PI*2,0,true);
+      }
       ctx.closePath();
       ctx.fill();
     }//
