@@ -636,8 +636,8 @@ function draw(){
         // }
       }
       if(GetDistance(x,y,0,0)>350){
-        x=cursorunitvector.x*350;
-        y=cursorunitvector.y*350;
+        x=cursorunitvector.x*349;
+        y=cursorunitvector.y*349;
         // console.log("1 x"+x+"y"+y);
         if(GetVerticalDistanceAndLeftOrRight(thissrcx,thissrcy,unitvector.x,unitvector.y,x,y).verticaldistance<width){
           if(!rightnode){
@@ -699,8 +699,8 @@ function draw(){
       }
       if(GetDistance(x,y,0,0)<200){
         var record=x;
-        x=cursorunitvector.x*200;
-        y=cursorunitvector.y*200;
+        x=cursorunitvector.x*201;
+        y=cursorunitvector.y*201;
         // console.log("3 x"+x+"y"+y);
         if(GetVerticalDistanceAndLeftOrRight(thissrcx,thissrcy,unitvector.x,unitvector.y,x,y).verticaldistance<width){
           leftorright=GetVerticalDistanceAndLeftOrRight(thissrcx,thissrcy,unitvector.x,unitvector.y,x,y).leftorright;
