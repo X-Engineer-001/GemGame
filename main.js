@@ -636,7 +636,6 @@ function draw(){
         // }
       }
       if(GetDistance(x,y,0,0)>350){
-        var record=x;
         x=cursorunitvector.x*350;
         y=cursorunitvector.y*350;
         // console.log("1 x"+x+"y"+y);
@@ -649,9 +648,9 @@ function draw(){
           // console.log(frontorback);
           if(leftorright==-1){
             if(!leftnode){
-              var record=cursor.x;
-              x=cursor.x+unitvector.y*(-1*width+GetVerticalDistanceAndLeftOrRight(thissrcx,thissrcy,unitvector.x,unitvector.y,cursor.x,cursor.y).leftorright*GetVerticalDistanceAndLeftOrRight(thissrcx,thissrcy,unitvector.x,unitvector.y,cursor.x,cursor.y).verticaldistance);
-              y=cursor.y+unitvector.x*(width-GetVerticalDistanceAndLeftOrRight(thissrcx,thissrcy,unitvector.x,unitvector.y,record,cursor.y).leftorright*GetVerticalDistanceAndLeftOrRight(thissrcx,thissrcy,unitvector.x,unitvector.y,record,cursor.y).verticaldistance);
+              var record=cursor.x-350;
+              x=cursor.x-350+unitvector.y*(-1*width+GetVerticalDistanceAndLeftOrRight(thissrcx,thissrcy,unitvector.x,unitvector.y,cursor.x-350,cursor.y-350).leftorright*GetVerticalDistanceAndLeftOrRight(thissrcx,thissrcy,unitvector.x,unitvector.y,cursor.x-350,cursor.y-350).verticaldistance);
+              y=cursor.y-350+unitvector.x*(width-GetVerticalDistanceAndLeftOrRight(thissrcx,thissrcy,unitvector.x,unitvector.y,record,cursor.y-350).leftorright*GetVerticalDistanceAndLeftOrRight(thissrcx,thissrcy,unitvector.x,unitvector.y,record,cursor.y-350).verticaldistance);
             }else{
               if(frontorback<=0){
                 x=leftnode.x1-350;
@@ -663,9 +662,9 @@ function draw(){
             }
           }else{
             if(!rightnode){
-              var record=cursor.x;
-              x=cursor.x+unitvector.y*(width+GetVerticalDistanceAndLeftOrRight(thissrcx,thissrcy,unitvector.x,unitvector.y,cursor.x,cursor.y).leftorright*GetVerticalDistanceAndLeftOrRight(thissrcx,thissrcy,unitvector.x,unitvector.y,cursor.x,cursor.y).verticaldistance);
-              y=cursor.y+unitvector.x*(-1*width-GetVerticalDistanceAndLeftOrRight(thissrcx,thissrcy,unitvector.x,unitvector.y,record,cursor.y).leftorright*GetVerticalDistanceAndLeftOrRight(thissrcx,thissrcy,unitvector.x,unitvector.y,record,cursor.y).verticaldistance);
+              var record=cursor.x-350;
+              x=cursor.x-350+unitvector.y*(width+GetVerticalDistanceAndLeftOrRight(thissrcx,thissrcy,unitvector.x,unitvector.y,cursor.x-350,cursor.y-350).leftorright*GetVerticalDistanceAndLeftOrRight(thissrcx,thissrcy,unitvector.x,unitvector.y,cursor.x-350,cursor.y-350).verticaldistance);
+              y=cursor.y-350+unitvector.x*(-1*width-GetVerticalDistanceAndLeftOrRight(thissrcx,thissrcy,unitvector.x,unitvector.y,record,cursor.y-350).leftorright*GetVerticalDistanceAndLeftOrRight(thissrcx,thissrcy,unitvector.x,unitvector.y,record,cursor.y-350).verticaldistance);
             }else{
               if(frontorback<=0){
                 x=rightnode.x1-350;
