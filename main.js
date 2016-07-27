@@ -649,9 +649,9 @@ function draw(){
           // console.log(frontorback);
           if(leftorright==-1){
             if(!leftnode){
-              var record=x;
-              x=x+unitvector.y*(-1*width+GetVerticalDistanceAndLeftOrRight(thissrcx,thissrcy,unitvector.x,unitvector.y,x,y).leftorright*GetVerticalDistanceAndLeftOrRight(thissrcx,thissrcy,unitvector.x,unitvector.y,x,y).verticaldistance);
-              y=y+unitvector.x*(width-GetVerticalDistanceAndLeftOrRight(thissrcx,thissrcy,unitvector.x,unitvector.y,record,y).leftorright*GetVerticalDistanceAndLeftOrRight(thissrcx,thissrcy,unitvector.x,unitvector.y,record,y).verticaldistance);
+              var record=cursor.x;
+              x=cursor.x+unitvector.y*(-1*width+GetVerticalDistanceAndLeftOrRight(thissrcx,thissrcy,unitvector.x,unitvector.y,cursor.x,cursor.y).leftorright*GetVerticalDistanceAndLeftOrRight(thissrcx,thissrcy,unitvector.x,unitvector.y,cursor.x,cursor.y).verticaldistance);
+              y=cursor.y+unitvector.x*(width-GetVerticalDistanceAndLeftOrRight(thissrcx,thissrcy,unitvector.x,unitvector.y,record,cursor.y).leftorright*GetVerticalDistanceAndLeftOrRight(thissrcx,thissrcy,unitvector.x,unitvector.y,record,cursor.y).verticaldistance);
             }else{
               if(frontorback<=0){
                 x=leftnode.x1-350;
@@ -663,9 +663,9 @@ function draw(){
             }
           }else{
             if(!rightnode){
-              var record=x;
-              x=x+unitvector.y*(width+GetVerticalDistanceAndLeftOrRight(thissrcx,thissrcy,unitvector.x,unitvector.y,x,y).leftorright*GetVerticalDistanceAndLeftOrRight(thissrcx,thissrcy,unitvector.x,unitvector.y,x,y).verticaldistance);
-              y=y+unitvector.x*(-1*width-GetVerticalDistanceAndLeftOrRight(thissrcx,thissrcy,unitvector.x,unitvector.y,record,y).leftorright*GetVerticalDistanceAndLeftOrRight(thissrcx,thissrcy,unitvector.x,unitvector.y,record,y).verticaldistance);
+              var record=cursor.x;
+              x=cursor.x+unitvector.y*(width+GetVerticalDistanceAndLeftOrRight(thissrcx,thissrcy,unitvector.x,unitvector.y,cursor.x,cursor.y).leftorright*GetVerticalDistanceAndLeftOrRight(thissrcx,thissrcy,unitvector.x,unitvector.y,cursor.x,cursor.y).verticaldistance);
+              y=cursor.y+unitvector.x*(-1*width-GetVerticalDistanceAndLeftOrRight(thissrcx,thissrcy,unitvector.x,unitvector.y,record,cursor.y).leftorright*GetVerticalDistanceAndLeftOrRight(thissrcx,thissrcy,unitvector.x,unitvector.y,record,cursor.y).verticaldistance);
             }else{
               if(frontorback<=0){
                 x=rightnode.x1-350;
@@ -674,6 +674,25 @@ function draw(){
                 x=rightnode.x2-350;
                 y=rightnode.y2-350;
               }
+            }
+          }
+        }
+        if(GetDistance(x,y,0,0)>350){
+          if(GetVerticalDistanceAndLeftOrRight(thissrcx,thissrcy,unitvector.x,unitvector.y,x,y).leftorright==-1){
+            if(frontorback<=0){
+              x=leftnode.x1-350;
+              y=leftnode.y1-350;
+            }else{
+              x=leftnode.x2-350;
+              y=leftnode.y2-350;
+            }
+          }else{
+            if(frontorback<=0){
+              x=rightnode.x1-350;
+              y=rightnode.y1-350;
+            }else{
+              x=rightnode.x2-350;
+              y=rightnode.y2-350;
             }
           }
         }
