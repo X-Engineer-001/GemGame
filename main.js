@@ -520,21 +520,21 @@ function draw(){
       var thissrcy;
       var thistargetx;
       var thistargety;
-      if(editingbladepoint.x==0){
+      if(editingbladepoint.x==thisblade.length-4){
         thissrcx=thisblade[thisblade.length-2];
         thissrcy=thisblade[thisblade.length-1];
-        thistargetx=thisblade[2];
-        thistargety=thisblade[3];
-      }else if(editingbladepoint.x==thisblade.length-2){
-        thissrcx=thisblade[thisblade.length-4];
-        thissrcy=thisblade[thisblade.length-3];
         thistargetx=thisblade[0];
         thistargety=thisblade[1];
+      }else if(editingbladepoint.x==thisblade.length-2){
+        thistargetx=thisblade[0];
+        thistargety=thisblade[1];
+        thistargetx=thisblade[2];
+        thistargety=thisblade[3];
       }else{
-        thissrcx=thisblade[editingbladepoint.x-2];
-        thissrcy=thisblade[editingbladepoint.y-2];
         thistargetx=thisblade[editingbladepoint.x+2];
         thistargety=thisblade[editingbladepoint.y+2];
+        thissrcx=thisblade[editingbladepoint.x+4];
+        thissrcy=thisblade[editingbladepoint.y+4];
       }
       var width=6000/GetDistance(thissrcx,thissrcy,thistargetx,thistargety)
       if(width<20){
