@@ -303,7 +303,8 @@ function GetNodeUnitVectorToCircle(srcx,srcy,unitvectorx,unitvectory,centerx,cen
 function Getwaypoints(object,unitvector){
   // var d=object.movingdistance;
   // var c=object.movingcoolDown;
-  var array=[{x:object.x,y:object.y}];
+  var array=[];
+  array.push({x:object.x,y:object.y});
   console.log(array);
   var movingunitvector=unitvector;//player:GetUnitVector(player.x,player.y,cursor.x,cursor.y),enemy:GetUnitVector(enemy.x,enemy.y,player.x,player.y)
   var node=GetNodeUnitVectorToCircle(array[0].x,array[0].y,movingunitvector.x,movingunitvector.y,350,350,350-object.radius);
@@ -464,7 +465,7 @@ document.onclick=function(){
         }
       }//
       player={
-               x:650,y:350,radius:playerradius,judgmentarea:[],waypoints:[],waypointdes:1,cooldownclock:0,attackedflag:false,movingflag:false,
+               x:650,y:350,radius:playerradius/10,judgmentarea:[],waypoints:[],waypointdes:1,cooldownclock:0,attackedflag:false,movingflag:false,
                attack:equipedgems[0]*2*(10+artifact[0]+artifact[2])/10,
                criticalChance:Math.floor(equipedgems[1]*3*(10+artifact[1]+artifact[2])/10),
                criticalDamage:equipedgems[2]*0.1*(10+artifact[1]+artifact[2])/10,
@@ -500,7 +501,7 @@ document.onclick=function(){
                }
              };
       enemy={
-              x:50,y:350,radius:enemyradius,judgmentarea:[],waypoints:[],waypointdes:1,cooldownclock:0,attackedflag:false,movingflag:false,
+              x:50,y:350,radius:enemyradius/10,judgmentarea:[],waypoints:[],waypointdes:1,cooldownclock:0,attackedflag:false,movingflag:false,
               attack:enemyequipedgems[0]*2*(10+enemyartifact[0]+enemyartifact[2])/10,
               criticalChance:Math.floor(enemyequipedgems[1]*3*(10+enemyartifact[1]+enemyartifact[2])/10),
               criticalDamage:enemyequipedgems[2]*0.1*(10+enemyartifact[1]+enemyartifact[2])/10,
