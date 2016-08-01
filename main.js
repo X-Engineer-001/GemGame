@@ -29,8 +29,9 @@ var enemyequipedgems=[0,0,0,0,0,0,0,0,0];//fight
 var enemyblade=[];
 var player={};
 var enemy={};
+var autoflag=false;
 var uisorce=['','CRITICAL','regenerate','dodge'];
-var uiclock=[];//[x,y,event(uisorce),value,clock]
+var uiclock=[];//[playerorenemy(player:0,enemy:1),x,y,event(uisorce),value,clock]
 function DrawAttack(x,y,width,height){
   ctx.fillStyle="rgb(255,100,100)";
   ctx.fillRect(x,y,width,height);
@@ -240,6 +241,14 @@ function IsCollidedPointToIrregularSurface(pointarray,targetx,targety){//pointar
   }
   return false;
 }
+function IsCollidedIrregularSurfaceToIrregularSurface(pointarray1,pointarray2){//pointarray:[pointx,pointy,pointx,pointy...]
+  for(var i=0;i<pointarray1.length/2){
+    if(IsCollidedPointToIrregularSurface(pointarray2,pointarray1[i*2],pointarray1[i*2+1])){
+      return true;
+    }
+  }
+  return false;
+}
 function GetAbsoluteValue(value){
   if(value>=0){
     return value;
@@ -291,9 +300,49 @@ function GetNodeUnitVectorToCircle(srcx,srcy,unitvectorx,unitvectory,centerx,cen
     return {x1:srcx+(unitvectorx*z1),y1:srcy+(unitvectory*z1),x2:srcx+(unitvectorx*z2),y2:srcy+(unitvectory*z2)};
   }
 }
+function Getwaypoints(object,unitvector){
+  // var d=object.movingdistance;
+  // var c=object.movingcoolDown;
+  var array=[{x:object.x,y:object.y}];
+  var movingunitvector=unitvector;//player:GetUnitVector(player.x,player.y,cursor.x,cursor.y),enemy:GetUnitVector(enemy.x,enemy.y,player.x,player.y)
+  var node=GetNodeUnitVectorToCircle(array[0].x,array[0].y,movingunitvector.x,movingunitvector.y,350,350,350-object.radius);
+  array.push({x:node.x1,y:node.y1});
+  var moved=GetDistance(array[0].x,array[0].y,array[1].x,array[1].y);;
+  while(moved<object.movingdistance/*d*/){
+    var angle1=CoordinateToAngleRightClockwise(array[array.length-2].x-array[array.length-1].x,array[array.length-2].y-array[array.length-1].y);
+    var angle2=CoordinateToAngleRightClockwise(350-array[array.length-1].x,350-array[array.length-1].y);
+    var angle3=angle2*2-angle1;
+    if(angle3>=2*Math.PI){
+      angle3=angle3-2*Math.PI;
+    }else if(angle3<0){
+      angle3=angle3+2*Math.PI;
+    }
+    movingunitvector=AngleToCoordinateRightclockwise(angle3,1);
+    node=GetNodeUnitVectorToCircle(array[array.length-1].x,array[array.length-1].y,movingunitvector.x,movingunitvector.y,350,350,350-object.radius);
+    array.push({x:node.x1,y:node.y1});
+    moved=moved+GetDistance(array[array.length-2].x,array[array.length-2].y,array[array.length-1].x,array[array.length-1].y);
+  }
+  if(moved>object.movingdistance){
+    array[array.length-1].x=array[array.length-1].x-movingunitvector.x*(moved-object.movingdistance);
+    array[array.length-1].y=array[array.length-1].y-movingunitvector.y*(moved-object.movingdistance);
+  }
+  object.waypoints=array;
+}
 document.onmousemove=function(event){
   cursor.x=event.offsetX;
   cursor.y=event.offsetY;
+};
+document.onmousedown=function(event){
+  event.preventDefault();
+  var rightclick;
+  if(event.which){
+    rightclick=(event.which==3);
+  }else if(event.button){
+    rightclick=(event.button==2);
+  }
+  if(rightclick&&flag==2){
+    autoflag=!autoflag;
+  }
 };
 document.onclick=function(){
   if(flag==0){
@@ -388,8 +437,78 @@ document.onclick=function(){
         }
         enemyblade.push(creatingblade);
       }
-      player={x:600,y:600,cooldownclock:0,Attack:equipedgems[0]*2*(10+artifact[0]+artifact[2])/10,CriticalChance:Math.floor(equipedgems[1]*3*(10+artifact[1]+artifact[2])/10),CriticalDamage:equipedgems[2]*0.1*(10+artifact[1]+artifact[2])/10,Health:equipedgems[3]*30*(10+artifact[0]+artifact[2])/10,Defence:Math.floor(equipedgems[4]*3*(10+artifact[1]+artifact[2])/10),HealthRegenerate:equipedgems[3]*equipedgems[5]/(equipedgems[5]+100)*(10+artifact[1]+artifact[2])/10,MovingDistance:equipedgems[6]*20*(10+artifact[0]+artifact[2])/10,MovingCoolDown:Math.floor(FPS*200/(equipedgems[7]*3+100)*(10+artifact[1]+artifact[2])/10),Dodge:Math.floor(equipedgems[8]*3*(10+artifact[1]+artifact[2])/10)};
-      enemy={x:100,y:100,cooldownclock:0,Attack:enemyequipedgems[0]*2*(10+enemyartifact[0]+enemyartifact[2])/10,CriticalChance:Math.floor(enemyequipedgems[1]*3*(10+enemyartifact[1]+enemyartifact[2])/10),CriticalDamage:enemyequipedgems[2]*0.1*(10+enemyartifact[1]+enemyartifact[2])/10,Health:enemyequipedgems[3]*30*(10+enemyartifact[0]+enemyartifact[2])/10,Defence:Math.floor(enemyequipedgems[4]*3*(10+enemyartifact[1]+enemyartifact[2])/10),HealthRegenerate:enemyequipedgems[3]*enemyequipedgems[5]/(enemyequipedgems[5]+100)*(10+enemyartifact[1]+enemyartifact[2])/10,MovingDistance:enemyequipedgems[6]*20*(10+enemyartifact[0]+enemyartifact[2])/10,MovingCoolDown:Math.floor(FPS*200/(enemyequipedgems[7]*3+100)*(10+enemyartifact[1]+enemyartifact[2])/10),Dodge:Math.floor(enemyequipedgems[8]*3*(10+enemyartifact[1]+enemyartifact[2])/10)};
+      var thisblade=blade[1];
+      var playerradius=GetDistance(thisblade[0],thisblade[1],0,0);
+      for(var j=0;j<thisblade.length/2-1;j++){
+        playerradius=Math.max(GetDistance(thisblade[j*2+2],thisblade[j*2+3],0,0),playerradius);
+      }
+      for(var i=0;i<blade.length-2;i++){//Blade
+        thisblade=blade[i+2];
+        for(var j=0;j<thisblade.length/2;j++){
+          playerradius=Math.max(GetDistance(thisblade[j*2],thisblade[j*2+1],0,0),playerradius);
+        }
+      }//
+      thisblade=enemyblade[1];
+      var enemyradius=GetDistance(thisblade[0],thisblade[1],0,0);
+      for(var j=0;j<thisblade.length/2-1;j++){
+        enemyradius=Math.max(GetDistance(thisblade[j*2+2],thisblade[j*2+3],0,0),enemyradius);
+      }
+      for(var i=0;i<blade.length-2;i++){//Blade
+        thisblade=enemyblade[i+2];
+        for(var j=0;j<thisblade.length/2;j++){
+          enemyradius=Math.max(GetDistance(thisblade[j*2],thisblade[j*2+1],0,0),enemyradius);
+        }
+      }//
+      player={
+               x:600,y:600,radius:playerradius,judgmentarea:[],waypoints:[],waypointdes:1,cooldownclock:0,attackedflag:false,movingflag:false,
+               attack:equipedgems[0]*2*(10+artifact[0]+artifact[2])/10,
+               criticalChance:Math.floor(equipedgems[1]*3*(10+artifact[1]+artifact[2])/10),
+               criticalDamage:equipedgems[2]*0.1*(10+artifact[1]+artifact[2])/10,
+               health:equipedgems[3]*30*(10+artifact[0]+artifact[2])/10,
+               defence:Math.floor(equipedgems[4]*3*(10+artifact[1]+artifact[2])/10),
+               healthregenerate:equipedgems[3]*equipedgems[5]/(equipedgems[5]+100)*(10+artifact[1]+artifact[2])/10,
+               movingdistance:equipedgems[6]*20*(10+artifact[0]+artifact[2])/10,
+               movingcoolDown:Math.floor(FPS*200/(equipedgems[7]*3+100)*(10+artifact[1]+artifact[2])/10),
+               dodge:Math.floor(equipedgems[8]*3*(10+artifact[1]+artifact[2])/10),
+               move:function(){
+                 if(player.movingflag){
+                   var unitvector=GetUnitVector(player.waypoints[player.waypointdes-1].x,player.waypoints[player.waypointdes-1].y,player.waypoints[player.waypointdes].x,player.waypoints[player.waypointdes].y);
+                   player.x=player.x+unitvector.x*player.movingdistance/Math.floor(player.movingcoolDown/2);
+                   player.y=player.y+unitvector.y*player.movingdistance/Math.floor(player.movingcoolDown/2);
+                   var distancedifference=GetDistance(player.waypoints[player.waypointdes-1].x,player.waypoints[player.waypointdes-1].y,player.x,player.y)-GetDistance(player.waypoints[player.waypointdes-1].x,player.waypoints[player.waypointdes-1].y,player.waypoints[player.waypointdes].x,player.waypoints[player.waypointdes].y);
+                   if(distancedifference>-0.00001){
+                     var array=player.waypoints;
+                     if(player.waypointdes==array.length-1){
+                       player.x=player.waypoints[player.waypointdes].x;
+                       player.y=player.waypoints[player.waypointdes].y;
+                       player.movingflag=false;
+                     }else{
+                       player.x=player.waypoints[player.waypointdes].x;
+                       player.y=player.waypoints[player.waypointdes].y;
+                       player.waypointdes=player.waypointdes+1;
+                       unitvector=GetUnitVector(player.waypoints[player.waypointdes-1].x,player.waypoints[player.waypointdes-1].y,player.waypoints[player.waypointdes].x,player.waypoints[player.waypointdes].y);
+                       player.x=player.x+unitvector.x*distancedifference;
+                       player.y=player.y+unitvector.y*distancedifference;
+                     }
+                   }
+                 }
+               }
+             };
+      enemy={
+              x:100,y:100,radius:enemyradius,judgmentarea:[],waypoints:[],waypointdes:1,cooldownclock:0,attackedflag:false,movingflag:false,
+              attack:enemyequipedgems[0]*2*(10+enemyartifact[0]+enemyartifact[2])/10,
+              criticalChance:Math.floor(enemyequipedgems[1]*3*(10+enemyartifact[1]+enemyartifact[2])/10),
+              criticalDamage:enemyequipedgems[2]*0.1*(10+enemyartifact[1]+enemyartifact[2])/10,
+              health:enemyequipedgems[3]*30*(10+enemyartifact[0]+enemyartifact[2])/10,
+              defence:Math.floor(enemyequipedgems[4]*3*(10+enemyartifact[1]+enemyartifact[2])/10),
+              healthregenerate:enemyequipedgems[3]*enemyequipedgems[5]/(enemyequipedgems[5]+100)*(10+enemyartifact[1]+enemyartifact[2])/10,
+              movingdistance:enemyequipedgems[6]*20*(10+enemyartifact[0]+enemyartifact[2])/10,
+              movingcoolDown:Math.floor(FPS*200/(enemyequipedgems[7]*3+100)*(10+enemyartifact[1]+enemyartifact[2])/10),
+              dodge:Math.floor(enemyequipedgems[8]*3*(10+enemyartifact[1]+enemyartifact[2])/10),
+              move:function(){
+
+              }
+            };
       flag=2;
     }else{
       editflag=0;
@@ -794,8 +913,31 @@ function draw(){
     ctx.drawImage(fight,0,650,50,50);
     DrawBladePoint();
   }else if(flag==2){
-    DrawBlade(player.x,player.y,0.1,blade,true);
-    DrawBlade(enemy.x,enemy.y,0.1,enemyblade,true);
+    if(player.movingflag){
+      DrawBlade(player.x,player.y,0.1,blade,true);
+    }else{
+      DrawBlade(player.x,player.y,0.1,blade,false);
+    }
+    if(enemy.movingflag){
+      DrawBlade(enemy.x,enemy.y,0.1,enemyblade,true);
+    }else{
+      DrawBlade(enemy.x,enemy.y,0.1,enemyblade,false);
+    }
+    DrawCore((player.x,player.y,0.1,equipedgems);
+    DrawCore(enemy.x,enemy.y,0.1,enemyequipedgems);
+    // if(player.cooldownclock==Math.floor(player.movingcoolDown/2)){
+    //
+    // }
+    if(player.cooldownclock<player.movingcoolDown){
+      player.cooldownclock=player.cooldownclock+1;
+    }else if(autoflag){
+      Getwaypoints(player,GetUnitVector(player.x,player.y,cursor.x,cursor.y));
+      player.movingflag=true;
+      player.cooldownclock=0;
+    }
+    if(player.movingflag==true){
+      player.move();
+    }
   }
 }
 setInterval(draw,1000/FPS);
