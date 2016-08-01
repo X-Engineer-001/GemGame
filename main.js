@@ -307,6 +307,7 @@ function Getwaypoints(object,unitvector){
   console.log(array);
   var movingunitvector=unitvector;//player:GetUnitVector(player.x,player.y,cursor.x,cursor.y),enemy:GetUnitVector(enemy.x,enemy.y,player.x,player.y)
   var node=GetNodeUnitVectorToCircle(array[0].x,array[0].y,movingunitvector.x,movingunitvector.y,350,350,350-object.radius);
+  console.log(node);
   array.push({x:node.x1,y:node.y1});
   console.log(array);
   var moved=GetDistance(array[0].x,array[0].y,array[1].x,array[1].y);;
