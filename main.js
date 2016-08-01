@@ -327,6 +327,7 @@ function Getwaypoints(object,unitvector){
     array[array.length-1].y=array[array.length-1].y-movingunitvector.y*(moved-object.movingdistance);
   }
   object.waypoints=array;
+  console.log(array);
 }
 document.onmousemove=function(event){
   cursor.x=event.offsetX;
@@ -935,7 +936,7 @@ function draw(){
       player.movingflag=true;
       player.cooldownclock=0;
     }
-    if(player.movingflag==true){
+    if(player.movingflag){
       player.move();
     }
   }
