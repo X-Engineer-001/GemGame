@@ -304,9 +304,11 @@ function Getwaypoints(object,unitvector){
   // var d=object.movingdistance;
   // var c=object.movingcoolDown;
   var array=[{x:object.x,y:object.y}];
+  console.log(array);
   var movingunitvector=unitvector;//player:GetUnitVector(player.x,player.y,cursor.x,cursor.y),enemy:GetUnitVector(enemy.x,enemy.y,player.x,player.y)
   var node=GetNodeUnitVectorToCircle(array[0].x,array[0].y,movingunitvector.x,movingunitvector.y,350,350,350-object.radius);
   array.push({x:node.x1,y:node.y1});
+  console.log(array);
   var moved=GetDistance(array[0].x,array[0].y,array[1].x,array[1].y);;
   while(moved<object.movingdistance/*d*/){
     var angle1=CoordinateToAngleRightClockwise(array[array.length-2].x-array[array.length-1].x,array[array.length-2].y-array[array.length-1].y);
@@ -322,6 +324,7 @@ function Getwaypoints(object,unitvector){
     array.push({x:node.x1,y:node.y1});
     moved=moved+GetDistance(array[array.length-2].x,array[array.length-2].y,array[array.length-1].x,array[array.length-1].y);
   }
+  console.log(array);
   if(moved>object.movingdistance){
     array[array.length-1]={x:array[array.length-1].x-movingunitvector.x*(moved-object.movingdistance),y:array[array.length-1].y-movingunitvector.y*(moved-object.movingdistance)};
   }
