@@ -464,7 +464,7 @@ document.onclick=function(){
         }
       }//
       player={
-               x:600,y:600,radius:playerradius,judgmentarea:[],waypoints:[],waypointdes:1,cooldownclock:0,attackedflag:false,movingflag:false,
+               x:650,y:350,radius:playerradius,judgmentarea:[],waypoints:[],waypointdes:1,cooldownclock:0,attackedflag:false,movingflag:false,
                attack:equipedgems[0]*2*(10+artifact[0]+artifact[2])/10,
                criticalChance:Math.floor(equipedgems[1]*3*(10+artifact[1]+artifact[2])/10),
                criticalDamage:equipedgems[2]*0.1*(10+artifact[1]+artifact[2])/10,
@@ -500,7 +500,7 @@ document.onclick=function(){
                }
              };
       enemy={
-              x:100,y:100,radius:enemyradius,judgmentarea:[],waypoints:[],waypointdes:1,cooldownclock:0,attackedflag:false,movingflag:false,
+              x:50,y:350,radius:enemyradius,judgmentarea:[],waypoints:[],waypointdes:1,cooldownclock:0,attackedflag:false,movingflag:false,
               attack:enemyequipedgems[0]*2*(10+enemyartifact[0]+enemyartifact[2])/10,
               criticalChance:Math.floor(enemyequipedgems[1]*3*(10+enemyartifact[1]+enemyartifact[2])/10),
               criticalDamage:enemyequipedgems[2]*0.1*(10+enemyartifact[1]+enemyartifact[2])/10,
