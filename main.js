@@ -923,7 +923,7 @@ function draw(){
     }else{
       DrawBlade(enemy.x,enemy.y,0.1,enemyblade,false);
     }
-    DrawCore((player.x,player.y,0.1,equipedgems);
+    DrawCore(player.x,player.y,0.1,equipedgems);
     DrawCore(enemy.x,enemy.y,0.1,enemyequipedgems);
     // if(player.cooldownclock==Math.floor(player.movingcoolDown/2)){
     //
