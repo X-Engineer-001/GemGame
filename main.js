@@ -323,8 +323,7 @@ function Getwaypoints(object,unitvector){
     moved=moved+GetDistance(array[array.length-2].x,array[array.length-2].y,array[array.length-1].x,array[array.length-1].y);
   }
   if(moved>object.movingdistance){
-    array[array.length-1].x=array[array.length-1].x-movingunitvector.x*(moved-object.movingdistance);
-    array[array.length-1].y=array[array.length-1].y-movingunitvector.y*(moved-object.movingdistance);
+    array[array.length-1]={x:array[array.length-1].x-movingunitvector.x*(moved-object.movingdistance),y:array[array.length-1].y-movingunitvector.y*(moved-object.movingdistance)};
   }
   object.waypoints=array;
   console.log(array);
@@ -483,6 +482,7 @@ document.onclick=function(){
                        player.x=player.waypoints[player.waypointdes].x;
                        player.y=player.waypoints[player.waypointdes].y;
                        player.movingflag=false;
+                       player.waypointdes=1;
                      }else{
                        player.x=player.waypoints[player.waypointdes].x;
                        player.y=player.waypoints[player.waypointdes].y;
