@@ -242,7 +242,7 @@ function IsCollidedPointToIrregularSurface(pointarray,targetx,targety){//pointar
   return false;
 }
 function IsCollidedIrregularSurfaceToIrregularSurface(pointarray1,pointarray2){//pointarray:[pointx,pointy,pointx,pointy...]
-  for(var i=0;i<pointarray1.length/2){
+  for(var i=0;i<pointarray1.length/2;i++){
     if(IsCollidedPointToIrregularSurface(pointarray2,pointarray1[i*2],pointarray1[i*2+1])){
       return true;
     }
