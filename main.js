@@ -30,6 +30,7 @@ var enemyblade=[];
 var player={};
 var enemy={};
 var autoflag=false;
+var enemycooldown;
 var uisorce=['','CRITICAL','regenerate','dodge'];
 var uiclock=[];//[playerorenemy(player:0,enemy:1),x,y,event(uisorce),value,clock]
 function DrawAttack(x,y,width,height){
@@ -511,7 +512,28 @@ document.onclick=function(){
               movingcoolDown:Math.floor(FPS*200/(enemyequipedgems[7]*3+100)*(10+enemyartifact[1]+enemyartifact[2])/10),
               dodge:Math.floor(enemyequipedgems[8]*3*(10+enemyartifact[1]+enemyartifact[2])/10),
               move:function(){
-
+                if(player.movingflag){
+                  var unitvector=GetUnitVector(player.waypoints[player.waypointdes-1].x,player.waypoints[player.waypointdes-1].y,player.waypoints[player.waypointdes].x,player.waypoints[player.waypointdes].y);
+                  player.x=player.x+unitvector.x*player.movingdistance/Math.floor(player.movingcoolDown/2);
+                  player.y=player.y+unitvector.y*player.movingdistance/Math.floor(player.movingcoolDown/2);
+                  var distancedifference=GetDistance(player.waypoints[player.waypointdes-1].x,player.waypoints[player.waypointdes-1].y,player.x,player.y)-GetDistance(player.waypoints[player.waypointdes-1].x,player.waypoints[player.waypointdes-1].y,player.waypoints[player.waypointdes].x,player.waypoints[player.waypointdes].y);
+                  if(distancedifference>-0.00001){
+                    var array=player.waypoints;
+                    if(player.waypointdes==array.length-1){
+                      player.x=player.waypoints[player.waypointdes].x;
+                      player.y=player.waypoints[player.waypointdes].y;
+                      player.movingflag=false;
+                      player.waypointdes=1;
+                    }else{
+                      player.x=player.waypoints[player.waypointdes].x;
+                      player.y=player.waypoints[player.waypointdes].y;
+                      player.waypointdes=player.waypointdes+1;
+                      unitvector=GetUnitVector(player.waypoints[player.waypointdes-1].x,player.waypoints[player.waypointdes-1].y,player.waypoints[player.waypointdes].x,player.waypoints[player.waypointdes].y);
+                      player.x=player.x+unitvector.x*distancedifference;
+                      player.y=player.y+unitvector.y*distancedifference;
+                    }
+                  }
+                }
               }
             };
       flag=2;
@@ -942,6 +964,16 @@ function draw(){
     }
     if(player.movingflag){
       player.move();
+    }
+    if(enemy.cooldownclock==0){
+      enemycooldown=Math.floor(enemy.movingcoolDown*Random(2,1));
+    }
+    if(enemy.cooldownclock<enemycooldown){
+      enemy.cooldownclock=enemy.cooldownclock+1;
+    }else if(autoflag){
+      Getwaypoints(enemy,GetUnitVector(enemy.x,enemy.y,player.x,player.y));
+      enemy.movingflag=true;
+      enemy.cooldownclock=0;
     }
   }
 }
