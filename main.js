@@ -552,7 +552,7 @@ function DrawBlade(x,y,scaling,array,spin){//blade:[2,[-50,-50,0,-300,50,-50]]
           ctx.beginPath();
           for(var k=0;k<array[i+1].length/2;k++){
             if(k==0){
-              ctx.moveTo(thisblade[0]*scaling+x,(thisblade[1]*scaling+y);
+              ctx.moveTo(thisblade[0]*scaling+x,thisblade[1]*scaling+y);
             }else{
               ctx.lineTo(thisblade[k*2]*scaling+x,thisblade[k*2+1]*scaling+y);
             }
